@@ -15,4 +15,10 @@ class SetController extends AbstractController
             'controller_name' => 'SetController',
         ]);
     }
+
+    #[Route('/set/create', name: 'app_set_create', methods: ['POST'])]
+    public function create(): Response
+    {
+
+    }
 }
