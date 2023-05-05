@@ -26,12 +26,28 @@ class SetController extends AbstractController
     }
 
     #[Route('/set', name: 'app_set')]
-    public function index(SetRepository $setRepository): Response
+    public function index(SetRepository $setRepository, Request $request): Response
     {
         $sets = $setRepository->findAll();
+        $points = [];
+        $routes = [];
+
+        $setId = $request->get('setId');
+
+        if ($setId) {
+            $set = $setRepository->find($setId);
+            if ($set) {
+                $points = $set->getPoints();
+                $routes = $set->getRoutes();
+            }
+        }
+
         return $this->render('set/index.html.twig', [
             'controller_name' => 'SetController',
-            'sets' => $sets
+            'sets' => $sets,
+            'points' => $points,
+            'routes' => $routes,
+            'setId' => $setId
         ]);
     }
 

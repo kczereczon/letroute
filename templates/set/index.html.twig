@@ -5,17 +5,35 @@
 {% block body %}
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>
-    <div class="flex flex-row h-full gap-2" x-data="{ placeholder: 'Type here...' }">
+    <div class="flex flex-row h-full max-h-full gap-2" x-data="{ setId: {{ setId }}}">
         <div class="flex flex-row basis-1/2 h-full gap-2">
             <div class="sets basis-1/3">
                 <div class="w-full rounded text-center bg-gray-100 p-3">Zbiory</div>
-                {% for set in sets %}
-                <div x-on:click="alert('test')" class="border-b-2 hover:bg-teal-100">{{ set.name }}</div>
-                {% endfor %}
-                <button><strong x-text="placeholder"></strong></button>
+                <div>
+                    {% for set in sets %}
+                        <a href="{{ path('app_set', {'setId': set.id}) }}">
+                            <div :class="setId == '{{ set.id }}' ? 'bg-teal-300' : ''"
+                                 class="border-b-2 hover:bg-teal-100">{{ set.name }}</div>
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
-            <div class="points basis-1/3"><div class="w-full rounded text-center bg-gray-100 p-3">Punkty</div></div>
-            <div class="routes basis-1/3"><div class="w-full rounded text-center bg-gray-100 p-3">Trasy</div></div>
+            <div class="points basis-1/3 flex flex-col">
+                <div class="flex-1 w-full rounded text-center bg-gray-100 p-3">Punkty</div>
+                <div class="flex-auto flex flex-col flex-nowrap h-96">
+                    {% for point in points %}
+                        <div class="border-b-2 hover:bg-teal-100">{{ point.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="routes basis-1/3 h-full">
+                <div class="w-full rounded text-center bg-gray-100 p-3">Trasy</div>
+                <div>
+                    {% for route in routes %}
+                        <div class="border-b-2 hover:bg-teal-100">{{ route.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         <div id="map" class="h-full basis-1/2 rounded"></div>
     </div>
