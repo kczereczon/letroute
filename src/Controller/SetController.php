@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Point;
 use App\Entity\Set;
 use App\Factory\FileParserFactory;
+use App\Repository\RouteRepository;
 use App\Repository\SetRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,7 @@ class SetController extends AbstractController
     }
 
     #[Route('/set', name: 'app_set')]
-    public function index(SetRepository $setRepository, Request $request): Response
+    public function index(SetRepository $setRepository, RouteRepository $routeRepository, Request $request): Response
     {
         $sets = $setRepository->findAll();
         $points = [];
@@ -37,8 +38,17 @@ class SetController extends AbstractController
         if ($setId) {
             $set = $setRepository->find($setId);
             if ($set) {
-                $points = $set->getPoints();
                 $routes = $set->getRoutes();
+                $points = $set->getPoints();
+            }
+        }
+
+        $routeId = $request->get('routeId');
+
+        if ($routeId) {
+            $route = $routeRepository->find($routeId);
+            if($route) {
+                $points = $route->getPoints();
             }
         }
 
@@ -47,7 +57,8 @@ class SetController extends AbstractController
             'sets' => $sets,
             'points' => $points,
             'routes' => $routes,
-            'setId' => $setId
+            'setId' => $setId,
+            'routeId' => $routeId
         ]);
     }
 

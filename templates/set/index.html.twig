@@ -5,7 +5,7 @@
 {% block body %}
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>
-    <div class="flex flex-row h-full max-h-full gap-2" x-data="{ setId: {{ setId }}}">
+    <div class="flex flex-row h-full max-h-full gap-2" x-data="{ setId: {{ setId|default(false) }} {% if routeId %},routeId: {{routeId}} {% endif %}}">
         <div class="flex flex-row basis-1/2 h-full gap-2">
             <div class="sets basis-1/3">
                 <div class="w-full rounded text-center bg-gray-100 p-3">Zbiory</div>
@@ -18,20 +18,26 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="points basis-1/3 flex flex-col">
-                <div class="flex-1 w-full rounded text-center bg-gray-100 p-3">Punkty</div>
-                <div class="flex-auto flex flex-col flex-nowrap h-96">
-                    {% for point in points %}
-                        <div class="border-b-2 hover:bg-teal-100">{{ point.name }}</div>
-                    {% endfor %}
-                </div>
-            </div>
             <div class="routes basis-1/3 h-full">
                 <div class="w-full rounded text-center bg-gray-100 p-3">Trasy</div>
                 <div>
                     {% for route in routes %}
-                        <div class="border-b-2 hover:bg-teal-100">{{ route.name }}</div>
+                        {{ dump(route) }}
+                        <a href="{{ path('app_set', {'setId': setId, 'routeId': route.id}) }}">
+                            <div :class="routeId == '{{ route.id }}' ? 'bg-teal-300' : ''"
+                                 class="border-b-2 hover:bg-teal-100">{{ route.id }}</div>
+                        </a>
                     {% endfor %}
+                </div>
+            </div>
+            <div class="points basis-1/3 flex flex-col">
+                <div class="flex-1 w-full rounded text-center bg-gray-100 p-3">Punkty</div>
+                <div class="flex-auto flex flex-col flex-nowrap h-96">
+                    {% if routeId %}
+                        {% for point in points %}
+                            <div class="border-b-2 hover:bg-teal-100">{{ point.name }}</div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -46,6 +52,17 @@
             center: [19.0, 52.0],
             zoom: 5
         });
+
+        let points = {{ points.toArray|json_encode(constant('JSON_HEX_QUOT'))|raw }};
+
+        points.forEach(point => {
+            console.log(point)
+            const marker = new mapboxgl.Marker({
+                color: "#FFFFFF",
+                draggable: false
+            }).setLngLat([point.lon, point.lat])
+                .addTo(map);
+        })
 
         function handleClick(e) {
             alert(e);

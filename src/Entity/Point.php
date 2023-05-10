@@ -6,7 +6,7 @@ use App\Repository\PointRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PointRepository::class)]
-class Point
+class Point implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -106,5 +106,15 @@ class Point
         $this->route = $route;
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'lat' => $this->getLat(),
+            'lon' => $this->getLon()
+        ];
     }
 }
