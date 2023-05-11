@@ -53,7 +53,7 @@
             zoom: 5
         });
 
-        let points = {{ points.toArray|json_encode(constant('JSON_HEX_QUOT'))|raw }};
+        let points = {{ points.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }};
 
         points.forEach(point => {
             console.log(point)
