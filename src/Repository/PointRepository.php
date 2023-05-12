@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Point;
+use App\Entity\Set;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +39,55 @@ class PointRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findBiggestLon(Set $set): Point
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.lon', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findSmallestLon(Set $set): Point
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.lon', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findBiggestLat(Set $set): Point
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.lat', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findSmallestLat(Set $set): Point
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.lat', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**

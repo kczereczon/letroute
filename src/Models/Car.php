@@ -5,6 +5,7 @@ class Car
     private string $name;
     private int $allowedWeight;
     private int $currentWeight;
+    private Centroid $centroid;
 
     /**
      * @param string $name
@@ -16,6 +17,15 @@ class Car
         $this->name = $name;
         $this->allowedWeight = $allowedWeight;
         $this->currentWeight = $currentWeight;
+        $this->centroid = new Centroid(0,0);
+    }
+
+    /**
+     * @return Centroid
+     */
+    public function getCentroid(): Centroid
+    {
+        return $this->centroid;
     }
 
     /**
