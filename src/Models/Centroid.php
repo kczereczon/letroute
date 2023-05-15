@@ -1,6 +1,8 @@
 <?php
 
-class Centroid
+namespace App\Models;
+
+class Centroid implements \App\Interfaces\Coordinates
 {
     private float $x;
     private float $y;
@@ -34,16 +36,18 @@ class Centroid
     /**
      * @param float $x
      */
-    public function setX(float $x): void
+    public function setX(float $x): self
     {
         $this->x = $x;
+        return $this;
     }
 
     /**
      * @param float $y
      */
-    public function setY(float $y): void
+    public function setY(float $y): self
     {
         $this->y = $y;
+        return $this;
     }
 }

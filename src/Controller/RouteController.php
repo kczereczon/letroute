@@ -3,15 +3,24 @@
 namespace App\Controller;
 
 use App\Repository\PointRepository;
+use App\Service\PointService;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RouteController extends AbstractController
 {
+    /**
+     * @throws NonUniqueResultException
+     * @throws \Exception
+     */
     #[Route('/route/generate/{id}', name: 'app_generate_routes', methods: ["POST"])]
-    public function generate(\App\Entity\Set $set, PointRepository $pointRepository): Response
-    {
+    public function generate(
+        \App\Entity\Set $set,
+        PointRepository $pointRepository,
+        PointService $pointService
+    ): Response {
         $points = $set->getPoints();
 
         $cars = [
@@ -33,8 +42,13 @@ class RouteController extends AbstractController
         $smallestLon = $pointRepository->findSmallestLon($set);
 
         foreach ($cars as $car) {
-            $x = random_int($smallestLon->getLon()*1000, $biggestLon->getLon()*1000)/1000;
-            $y = random_int($smallestLat->getLon()*1000, $biggestLat->getLon()*1000)/1000;
+            $x = random_int($smallestLon->getLon() * 1000, $biggestLon->getLon() * 1000) / 1000;
+            $y = random_int($smallestLat->getLon() * 1000, $biggestLat->getLon() * 1000) / 1000;
+
+            $car->getCentroid()->setX($x);
+            $car->getCentroid()->setY($y);
+
+
         }
 
 

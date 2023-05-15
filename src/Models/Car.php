@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class Car
 {
     private string $name;

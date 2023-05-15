@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Interfaces\Coordinates;
 use App\Repository\PointRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PointRepository::class)]
-class Point implements \JsonSerializable
+class Point implements \JsonSerializable, Coordinates
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -116,5 +117,25 @@ class Point implements \JsonSerializable
             'lat' => $this->getLat(),
             'lon' => $this->getLon()
         ];
+    }
+
+    public function getX(): float
+    {
+        return $this->getLon();
+    }
+
+    public function getY(): float
+    {
+        return $this->getLat();
+    }
+
+    public function setX(float $x): self
+    {
+        return $this->setLon($x);
+    }
+
+    public function setY(float $y): self
+    {
+        return $this->setLat($y);
     }
 }
