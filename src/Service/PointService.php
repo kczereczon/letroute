@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Point;
 use App\Interfaces\Coordinates;
+use App\Interfaces\Point;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 

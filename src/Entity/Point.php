@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use App\Interfaces\Coordinates;
+use App\Interfaces\Load;
 use App\Repository\PointRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PointRepository::class)]
-class Point implements \JsonSerializable, Coordinates
+class Point implements \JsonSerializable, \App\Interfaces\Point
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -73,7 +74,7 @@ class Point implements \JsonSerializable, Coordinates
         return $this;
     }
 
-    public function getWeight(): ?float
+    public function getWeight(): float
     {
         return $this->weight;
     }

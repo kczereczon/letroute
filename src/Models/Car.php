@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Car
+use App\Interfaces\Coordinates;
+
+class Car implements \App\Interfaces\Car
 {
     private string $name;
     private int $allowedWeight;
@@ -21,36 +23,43 @@ class Car
         $this->currentWeight = $currentWeight;
         $this->centroid = new Centroid(0,0);
     }
-
-    /**
-     * @return Centroid
-     */
     public function getCentroid(): Centroid
     {
         return $this->centroid;
     }
-
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
-
-    /**
-     * @return int
-     */
     public function getAllowedWeight(): int
     {
         return $this->allowedWeight;
     }
-
-    /**
-     * @return int
-     */
     public function getCurrentWeight(): int
     {
         return $this->currentWeight;
+    }
+
+    public function addWeight(float $weight): self
+    {
+        $this->currentWeight += $weight;
+        return $this;
+    }
+
+    public function canCarry(float $weight): bool
+    {
+        return $this->currentWeight + $weight <= $this->allowedWeight;
+    }
+
+    public function unload(): self
+    {
+        $this->currentWeight = 0;
+        return $this;
+    }
+
+    public function setCentroid(Centroid|Coordinates $centroid): self
+    {
+        $this->centroid = $centroid;
+        return $this;
     }
 }
