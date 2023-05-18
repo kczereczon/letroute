@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Point;
 use App\Entity\Set;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -72,7 +74,7 @@ class PointRepository extends ServiceEntityRepository
     public function findBiggestLat(Set $set): Point
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.lat', 'DESC')
+            ->orderBy('p.lat', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
@@ -84,10 +86,20 @@ class PointRepository extends ServiceEntityRepository
     public function findSmallestLat(Set $set): Point
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.lat', 'ASC')
+            ->orderBy('p.lat', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getPointsWithoutRoute(Set $set): Collection {
+        return new ArrayCollection($this->createQueryBuilder('p')
+            ->orderBy('p.lat', 'ASC')
+            ->where('p.set = :set')
+            ->andWhere('p.route IS NULL')
+            ->setParameter('set', $set)
+            ->getQuery()
+            ->getResult());
     }
 
 //    /**

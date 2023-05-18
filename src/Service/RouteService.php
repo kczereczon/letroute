@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Interfaces\Car;
-use App\Interfaces\Point;
+use App\Entity\Point;
 use Doctrine\Common\Collections\Collection;
 
 class RouteService
@@ -20,6 +20,10 @@ class RouteService
                 $car->addWeight($point->getWeight());
                 $route[] = $point;
                 $points->remove($key);
+            }
+
+            if($car->getCurrentWeight() >= $car->getAllowedWeight() * 0.8) {
+                break;
             }
         }
 
