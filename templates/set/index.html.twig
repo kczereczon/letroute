@@ -53,7 +53,8 @@
             zoom: 5
         });
 
-        let points = {{ points.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }};
+        let points = {{ pointsWithoutRoutes.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }};
+        let routePoints = {{ points.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }};
 
         points.forEach(point => {
             console.log(point)
@@ -63,6 +64,16 @@
             }).setLngLat([point.lon, point.lat])
                 .addTo(map);
         })
+
+        {% if route %}
+        routePoints.forEach(point => {
+            const marker = new mapboxgl.Marker({
+                color: "#{{ route.color }}",
+                draggable: false
+            }).setLngLat([point.lon, point.lat])
+                .addTo(map);
+        })
+        {% endif %}
 
         function handleClick(e) {
             alert(e);

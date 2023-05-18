@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Point;
 use App\Entity\Set;
 use App\Factory\FileParserFactory;
+use App\Repository\PointRepository;
 use App\Repository\RouteRepository;
 use App\Repository\SetRepository;
 use Doctrine\ORM\EntityManager;
@@ -27,11 +28,13 @@ class SetController extends AbstractController
     }
 
     #[Route('/set', name: 'app_set')]
-    public function index(SetRepository $setRepository, RouteRepository $routeRepository, Request $request): Response
+    public function index(SetRepository $setRepository, RouteRepository $routeRepository, PointRepository $pointRepository, Request $request): Response
     {
         $sets = $setRepository->findAll();
         $points = [];
         $routes = [];
+        $pointsWithoutRoutes = [];
+        $route = null;
 
         $setId = $request->get('setId');
 
@@ -39,7 +42,7 @@ class SetController extends AbstractController
             $set = $setRepository->find($setId);
             if ($set) {
                 $routes = $set->getRoutes();
-                $points = $set->getPoints();
+                $pointsWithoutRoutes = $pointRepository->getPointsWithoutRoute($set);
             }
         }
 
@@ -55,6 +58,8 @@ class SetController extends AbstractController
         return $this->render('set/index.html.twig', [
             'controller_name' => 'SetController',
             'sets' => $sets,
+            'pointsWithoutRoutes' => $pointsWithoutRoutes,
+            'route' => $route,
             'points' => $points,
             'routes' => $routes,
             'setId' => $setId,
