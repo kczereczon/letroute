@@ -5,7 +5,8 @@
 {% block body %}
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>
-    <div class="flex flex-row h-full max-h-full gap-2" x-data="{ setId: {{ setId|default(false) }} {% if routeId %},routeId: {{routeId}} {% endif %}}">
+    <div class="flex flex-row h-full max-h-full gap-2"
+         x-data="{ setId: {{ setId|default(false) }} {% if routeId %},routeId: {{ routeId }} {% endif %}}">
         <div class="flex flex-row basis-1/2 h-full gap-2">
             <div class="sets basis-1/3">
                 <div class="w-full rounded text-center bg-gray-100 p-3">Zbiory</div>
@@ -20,7 +21,7 @@
             </div>
             <div class="routes basis-1/3 h-full">
                 <div class="w-full rounded text-center bg-gray-100 p-3">Trasy
-                    <form action="{{ path('app_generate_routes', {'id': setId}) }}" method="POST"><button class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">WYGENERUJ</button></form></div>
+                </div>
                 <div>
                     {% for route in routes %}
                         <a href="{{ path('app_set', {'setId': setId, 'routeId': route.id}) }}">

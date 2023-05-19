@@ -82,7 +82,7 @@ class SetController extends AbstractController
         $points = $parser->parse($file->getContent());
 
         $set = new Set();
-        $set->setName("test set - " . date('Y-m-d h:i:s'));
+        $set->setName("set - " . date('Y-m-d h:i:s'));
         $entityManager->persist($set);
 
         foreach ($points as $point) {

@@ -28,20 +28,8 @@ class RouteController extends AbstractController
     ): Response {
         $points = $pointRepository->getPointsWithoutRoute($set);
 
-        $cars = [
-            new Car("car1", 1000, 0),
-            new Car("car2", 1000, 0),
-            new Car("car3", 1000, 0),
-            new Car("car4", 1000, 0),
-            new Car("car5", 1000, 0),
-            new Car("car6", 1000, 0),
-            new Car("car7", 1000, 0),
-            new Car("car8", 1000, 0),
-            new Car("car9", 1000, 0),
-            new Car("car10", 1000, 0),
-        ];
-
-        foreach ($cars as $car) {
+        while ($points->count() > 0) {
+            $car = new Car("car1", 1000, 0);
             $car->setCentroid($pointService->getRandomCentroid($set));
             $routePoints = $routeService->createRouteForCar($points, $car);
 
@@ -53,6 +41,7 @@ class RouteController extends AbstractController
                 $route->setSet($set);
                 $entityManager->persist($route);
             }
+            dd($route, $points->count());
         }
 
         $entityManager->flush();
