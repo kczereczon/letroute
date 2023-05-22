@@ -26,7 +26,7 @@
                     {% for route in routes %}
                         <a href="{{ path('app_set', {'setId': setId, 'routeId': route.id}) }}">
                             <div :class="routeId == '{{ route.id }}' ? 'bg-teal-300' : ''"
-                                 class="border-b-2 hover:bg-teal-100">{{ route.id }}</div>
+                                 class="border-b-2 hover:bg-teal-100">{{ route.name }}</div>
                         </a>
                     {% endfor %}
                 </div>

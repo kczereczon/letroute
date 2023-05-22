@@ -28,15 +28,23 @@ class RouteController extends AbstractController
     ): Response {
         $points = $pointRepository->getPointsWithoutRoute($set);
 
-        while ($points->count() > 0) {
+        $triesCount = 0;
+
+        while ($points->count() > 0 && $triesCount < 3) {
             $car = new Car("car1", 1000, 0);
             $car->setCentroid($pointService->getRandomCentroid($set));
             $routePoints = $routeService->createRouteForCar($points, $car);
 
+            if (!count($routePoints)) {
+                $triesCount++;
+                continue;
+            }
+
+
             $route = new \App\Entity\Route();
             foreach ($routePoints as $routePoint) {
                 $route->setName($car->getName() . ' - route');
-                $route->setColor(dechex(random_int(0,10000000)));
+                $route->setColor(dechex(random_int(0, 10000000)));
                 $route->addPoint($routePoint);
                 $route->setSet($set);
                 $entityManager->persist($route);
