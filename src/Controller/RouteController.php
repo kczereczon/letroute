@@ -41,7 +41,6 @@ class RouteController extends AbstractController
                 $route->setSet($set);
                 $entityManager->persist($route);
             }
-            dd($route, $points->count());
         }
 
         $entityManager->flush();
