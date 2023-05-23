@@ -9,7 +9,7 @@ class Car implements \App\Interfaces\Car
     private string $name;
     private int $allowedWeight;
     private int $currentWeight;
-    private Centroid $centroid;
+    private Coordinates $centroid;
 
     /**
      * @param string $name
@@ -23,7 +23,7 @@ class Car implements \App\Interfaces\Car
         $this->currentWeight = $currentWeight;
         $this->centroid = new Centroid(0,0);
     }
-    public function getCentroid(): Centroid
+    public function getCentroid(): Coordinates
     {
         return $this->centroid;
     }
@@ -57,7 +57,7 @@ class Car implements \App\Interfaces\Car
         return $this;
     }
 
-    public function setCentroid(Centroid|Coordinates $centroid): self
+    public function setCentroid(Coordinates $centroid): self
     {
         $this->centroid = $centroid;
         return $this;

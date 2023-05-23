@@ -5,6 +5,10 @@
 {% block body %}
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>
+    <div class="hidden twig-data"
+         data-points="{{ pointsWithoutRoutes|serialize(format = 'json') }}"
+         data-route="{{ route|serialize(format = 'json', context = {'groups': ['route']}) }}"
+         data-routes="{{ routes|serialize(format = 'json', context = {'groups': ['route']}) }}"></div>
     <div class="flex flex-row h-full max-h-full gap-2"
          x-data="{ setId: {{ setId|default(false) }} {% if routeId %},routeId: {{ routeId }} {% endif %}}">
         <div class="flex flex-row basis-1/2 h-full gap-2">
@@ -54,8 +58,15 @@
             zoom: 5
         });
 
-        let points = {{ pointsWithoutRoutes.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }};
-        let routePoints = {{ points.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }};
+        {# let points = {{ pointsWithoutRoutes.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }}; #}
+        {# let routePoints = {{ points.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }}; #}
+
+        let twigData = document.querySelector('.twig-data');
+        let routes = JSON.parse(twigData.dataset.routes);
+        let route = JSON.parse(twigData.dataset.route);
+        let points = JSON.parse(twigData.dataset.points);
+
+        console.log(points);
 
         points.forEach(point => {
             console.log(point)
@@ -66,15 +77,27 @@
                 .addTo(map);
         })
 
-        {% if route %}
-        routePoints.forEach(point => {
-            const marker = new mapboxgl.Marker({
-                color: "#{{ route.color }}",
-                draggable: false
-            }).setLngLat([point.lon, point.lat])
-                .addTo(map);
-        })
-        {% endif %}
+
+        if (!route) {
+            routes.forEach(route => {
+                route.points.forEach(point => {
+                    const marker = new mapboxgl.Marker({
+                        color: "#" + route.color,
+                        draggable: false
+                    }).setLngLat([point.lon, point.lat])
+                        .addTo(map);
+                })
+            })
+        } else {
+            route.points.forEach(point => {
+                const marker = new mapboxgl.Marker({
+                    color: "#" + route.color,
+                    draggable: false
+                }).setLngLat([point.lon, point.lat])
+                    .addTo(map);
+            })
+        }
+
 
         function handleClick(e) {
             alert(e);

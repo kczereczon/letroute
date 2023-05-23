@@ -17,13 +17,17 @@ class RouteServiceTest extends TestCase
      * @dataProvider createRoute
      * @throws \Exception
      */
-    public function test_create_route_for_car(array $points, Car $car, int $expectedPointsLeft, array $expectedRoute): void
-    {
+    public function test_create_route_for_car(
+        array $points,
+        Car $car,
+        int $expectedPointsLeft,
+        array $expectedRoute
+    ): void {
         $pointsCollection = new ArrayCollection($points);
-        $routeServiceMock = $this->createPartialMock(RouteService::class, []);
         $pointServiceMock = $this->createPartialMock(PointService::class, []);
+        $routeServiceMock = $this->getMockBuilder(RouteService::class)->setConstructorArgs([$pointServiceMock]
+        )->onlyMethods([])->getMock();
 
-        $pointsCollection = $pointServiceMock->sortPointsByDistance($pointsCollection, $car->getCentroid());
         $route = $routeServiceMock->createRouteForCar($pointsCollection, $car);
 
         $this->assertEquals($expectedPointsLeft, $pointsCollection->count());
@@ -35,18 +39,18 @@ class RouteServiceTest extends TestCase
         return [
             [
                 [
-                    new PointStub(1,1, 10),
-                    new PointStub(2,0, 10),
-                    new PointStub(3,3, 10),
-                    new PointStub(2,3, 10),
-                    new PointStub(5,2, 10),
+                    new PointStub(1, 1, 10),
+                    new PointStub(2, 0, 10),
+                    new PointStub(3, 3, 10),
+                    new PointStub(2, 3, 10),
+                    new PointStub(5, 2, 10),
                 ],
-                new CarStub("Car1", 30, new CoordinatesStub(3,2)),
+                new CarStub("Car1", 30, new CoordinatesStub(3, 2)),
                 2,
                 [
-                    new PointStub(3,3, 10),
-                    new PointStub(2,3, 10),
-                    new PointStub(5,2, 10),
+                    new PointStub(3, 3, 10),
+                    new PointStub(2, 3, 10),
+                    new PointStub(5, 2, 10),
                 ]
             ]
         ];

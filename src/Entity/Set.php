@@ -6,6 +6,7 @@ use App\Repository\SetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SetRepository::class)]
 class Set
@@ -18,9 +19,11 @@ class Set
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups("set")]
     #[ORM\OneToMany(mappedBy: 'set', targetEntity: Point::class)]
     private Collection $points;
 
+    #[Groups("set")]
     #[ORM\OneToMany(mappedBy: 'set', targetEntity: Route::class)]
     private Collection $routes;
 

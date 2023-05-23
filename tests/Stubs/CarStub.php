@@ -10,7 +10,7 @@ class CarStub implements Car
 
     private float $currentWeight;
 
-    public function __construct(private readonly string $name, private readonly float $allowedWeight, private CoordinatesStub $coordinatesStub)
+    public function __construct(private readonly string $name, private readonly float $allowedWeight, private Coordinates $coordinatesStub)
     {
         $this->currentWeight = 0;
     }
@@ -19,7 +19,7 @@ class CarStub implements Car
     {
         return $this->coordinatesStub;
     }
-    public function setCentroid(Coordinates|CoordinatesStub $coordinates): self {
+    public function setCentroid(Coordinates $coordinates): self {
         $this->coordinatesStub = $coordinates;
         return $this;
     }

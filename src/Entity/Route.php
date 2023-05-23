@@ -6,6 +6,7 @@ use App\Repository\RouteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RouteRepository::class)]
 class Route
@@ -13,17 +14,22 @@ class Route
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("route")]
     private ?int $id = null;
 
+    #[Groups("route")]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups("route")]
     #[ORM\Column(length: 255)]
     private ?string $color = null;
 
+    #[Groups("set_details")]
     #[ORM\ManyToOne(inversedBy: 'routes')]
     private ?Set $set = null;
 
+    #[Groups("route")]
     #[ORM\OneToMany(mappedBy: 'route', targetEntity: Point::class)]
     private Collection $points;
 
