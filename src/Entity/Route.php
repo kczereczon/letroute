@@ -33,6 +33,9 @@ class Route
     #[ORM\OneToMany(mappedBy: 'route', targetEntity: Point::class)]
     private Collection $points;
 
+    #[ORM\Column(nullable: true)]
+    private array $routeData = [];
+
     public function __construct()
     {
         $this->points = new ArrayCollection();
@@ -105,6 +108,18 @@ class Route
                 $point->setRoute(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRouteData(): array
+    {
+        return $this->routeData;
+    }
+
+    public function setRouteData(?array $routeData): self
+    {
+        $this->routeData = $routeData;
 
         return $this;
     }
