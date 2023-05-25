@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Models\Car;
 use App\Repository\PointRepository;
 use App\Repository\RouteRepository;
+use App\Service\MapboxService;
 use App\Service\PointService;
 use App\Service\RouteService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,8 @@ class RouteController extends AbstractController
         RouteRepository $routeRepository,
         PointService $pointService,
         RouteService $routeService,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MapboxService $mapboxService
     ): Response {
         $routes = $set->getRoutes();
         $points = $set->getPoints();
@@ -58,6 +60,8 @@ class RouteController extends AbstractController
             }
 
             $route = new \App\Entity\Route();
+
+            $mapboxService->getRouteData($routePoints);
             foreach ($routePoints as $routePoint) {
                 $route->setName($car->getName() . ' - route');
                 $route->setColor(sprintf('%06X', random_int(0, 0xFFFFFF)));

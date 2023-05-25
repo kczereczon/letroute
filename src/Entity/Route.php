@@ -33,7 +33,7 @@ class Route
     #[ORM\OneToMany(mappedBy: 'route', targetEntity: Point::class)]
     private Collection $points;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: false, options: ['default' => '""'])]
     private array $routeData = [];
 
     public function __construct()
