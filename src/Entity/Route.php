@@ -36,6 +36,12 @@ class Route
     #[ORM\Column(nullable: false, options: ['default' => '""'])]
     private array $routeData = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?int $duration = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $distance = null;
+
     public function __construct()
     {
         $this->points = new ArrayCollection();
@@ -120,6 +126,30 @@ class Route
     public function setRouteData(?array $routeData): self
     {
         $this->routeData = $routeData;
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): self
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getDistance(): ?int
+    {
+        return $this->distance;
+    }
+
+    public function setDistance(?int $distance): self
+    {
+        $this->distance = $distance;
 
         return $this;
     }
