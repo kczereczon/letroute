@@ -33,12 +33,15 @@ class Route
     #[ORM\OneToMany(mappedBy: 'route', targetEntity: Point::class)]
     private Collection $points;
 
+    #[Groups("route")]
     #[ORM\Column(nullable: false, options: ['default' => '""'])]
     private array $routeData = [];
 
+    #[Groups("route")]
     #[ORM\Column(nullable: true)]
     private ?int $duration = null;
 
+    #[Groups("route")]
     #[ORM\Column(nullable: true)]
     private ?int $distance = null;
 

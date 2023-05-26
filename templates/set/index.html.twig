@@ -30,7 +30,7 @@
                     {% for route in routes %}
                         <a href="{{ path('app_set', {'setId': setId, 'routeId': route.id}) }}">
                             <div :class="routeId == '{{ route.id }}' ? 'bg-teal-300' : ''"
-                                 class="border-b-2 hover:bg-teal-100">{{ route.name }}</div>
+                                 class="border-b-2 hover:bg-teal-100"> <span style="color: #{{ route.color }}">{{ route.name }}</span> - {{ route.distance / 1000  }} km - {{ (route.duration / 60) / 60  }} h </div>
                         </a>
                     {% endfor %}
                 </div>
@@ -58,6 +58,8 @@
             zoom: 5
         });
 
+
+
         {# let points = {{ pointsWithoutRoutes.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }}; #}
         {# let routePoints = {{ points.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }}; #}
 
@@ -68,36 +70,75 @@
 
         console.log(points);
 
-        points.forEach(point => {
-            console.log(point)
-            const marker = new mapboxgl.Marker({
-                color: "#FFFFFF",
-                draggable: false
-            }).setLngLat([point.lon, point.lat])
-                .addTo(map);
-        })
+        map.on('load', () => {
 
+            points.forEach(point => {
+                console.log(point)
+                const marker = new mapboxgl.Marker({
+                    color: "#FFFFFF",
+                    draggable: false
+                }).setLngLat([point.lon, point.lat])
+                    .addTo(map);
+            })
 
-        if (!route) {
-            routes.forEach(route => {
+            if (!route) {
+                routes.forEach(route => {
+                    route.points.forEach(point => {
+                        const marker = new mapboxgl.Marker({
+                            color: "#" + route.color,
+                            draggable: false
+                        }).setLngLat([point.lon, point.lat])
+                            .addTo(map);
+                    })
+
+                    map.addSource("route" + route.id, {
+                        'type': 'geojson',
+                        'data': route.routeData
+                    });
+
+                    map.addLayer({
+                        'id': "route" + route.id,
+                        'type': 'line',
+                        'source': "route" + route.id,
+                        'layout': {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        'paint': {
+                            'line-color': '#' + route.color,
+                            'line-width': 8
+                        }
+                    });
+                })
+            } else {
                 route.points.forEach(point => {
                     const marker = new mapboxgl.Marker({
                         color: "#" + route.color,
                         draggable: false
                     }).setLngLat([point.lon, point.lat])
                         .addTo(map);
-                })
-            })
-        } else {
-            route.points.forEach(point => {
-                const marker = new mapboxgl.Marker({
-                    color: "#" + route.color,
-                    draggable: false
-                }).setLngLat([point.lon, point.lat])
-                    .addTo(map);
-            })
-        }
+                });
 
+                map.addSource("route" + route.id, {
+                    'type': 'geojson',
+                    'data': route.routeData
+                });
+
+                map.addLayer({
+                    'id': "route" + route.id,
+                    'type': 'line',
+                    'source': "route" + route.id,
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#' + route.color,
+                        'line-width': 8
+                    }
+                });
+            }
+        })
 
         function handleClick(e) {
             alert(e);

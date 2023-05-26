@@ -15,10 +15,10 @@ class MapboxService
 
     /**
      * @param array<\App\Interfaces\Point> $points
-     * @return void
+     * @return array
      * @throws TransportExceptionInterface
      */
-    public function getRouteData(array $points)
+    public function getRouteData(array $points): array
     {
         $coordinates = "";
 
@@ -40,12 +40,16 @@ class MapboxService
             $json = json_decode($content);
 
             return [
-                "geometry" => json_encode($json->routes[0]->geometry),
+                "geometry" => (array)$json->routes[0]->geometry,
                 "distance" => $json->routes[0]->distance,
                 "duration" => $json->routes[0]->duration,
             ];
         } catch (\Exception $exception) {
-
+            return  [
+                "geometry" => [],
+                "distance" => 0,
+                "duration" => 0
+            ];
         }
     }
 }

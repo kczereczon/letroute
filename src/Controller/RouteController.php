@@ -61,12 +61,15 @@ class RouteController extends AbstractController
 
             $route = new \App\Entity\Route();
 
-            $mapboxService->getRouteData($routePoints);
+            $routeData = $mapboxService->getRouteData($routePoints);
             foreach ($routePoints as $routePoint) {
                 $route->setName($car->getName() . ' - route');
                 $route->setColor(sprintf('%06X', random_int(0, 0xFFFFFF)));
                 $route->addPoint($routePoint);
                 $route->setSet($set);
+                $route->setRouteData($routeData['geometry']);
+                $route->setDistance($routeData['distance']);
+                $route->setDuration($routeData['duration']);
                 $entityManager->persist($route);
             }
         }
