@@ -23,5 +23,5 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash
 
 RUN composer install
 
-EXPOSE 80
-CMD php bin/console server:run 0.0.0.0:80
+EXPOSE 8000
+CMD symfony server:start
