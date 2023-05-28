@@ -4,7 +4,7 @@ COPY . .
 RUN npm install
 RUN npm run build
 
-FROM php:8.2-apache
+FROM php:8.2-cli
 
 RUN apt update \
     && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev libpq-dev zip \
@@ -24,3 +24,4 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN composer install
 
 EXPOSE 80
+CMD php bin/console server:run 0.0.0.0:80
