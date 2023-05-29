@@ -19,7 +19,7 @@ COPY --from=builder /application ./
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 RUN composer install
