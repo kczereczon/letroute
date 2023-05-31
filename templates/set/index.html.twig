@@ -3,258 +3,152 @@
 {% block title %}Letroute - narzędzie do planowania tras{% endblock %}
 
 {% block body %}
-        <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-        <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>
 
-        <div class="hidden twig-data"
-                 data-points="{{ pointsWithoutRoutes|serialize(format = 'json') }}"
-                 data-route="{{ route|serialize(format = 'json', context = {'groups': ['route']}) }}"
-                 data-routes="{{ routes|serialize(format = 'json', context = {'groups': ['route']}) }}"></div>
+    <div class="hidden twig-data"
+         data-points="{{ pointsWithoutRoutes|serialize(format = 'json') }}"
+         data-route="{{ route|serialize(format = 'json', context = {'groups': ['route']}) }}"
+         data-routes="{{ routes|serialize(format = 'json', context = {'groups': ['route']}) }}"></div>
 
-        <!-- Left Side -->
-        <div class="w-1/2 bg-gray-200">
-                <!-- Content for the left side -->
-                <h1 class="text-4xl font-bold text-center p-8">Left Side</h1>
+    <!-- Left Side -->
+    <div class="w-1/2 bg-white p-6">
+        <!-- Content for the left side -->
+        <div class="flex flex-row h-full max-h-full gap-2 w-full">
+            <div class="sets basis-1/3 h-full">
+                <div class="w-full rounded text-center bg-gray-100 p-3">Zbiory</div>
+                <div>
+                    {% for set in sets %}
+                        <a href="{{ path('app_set', {'setId': set.id}) }}">
+                            <div :class="setId == '{{ set.id }}' ? 'bg-teal-300' : ''"
+                                 class="border-b-2 hover:bg-teal-100">{{ set.name }}</div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="routes basis-1/3 full-height-with-padding">
+                <div class="w-full rounded text-center bg-gray-100 p-3">Trasy
+                </div>
+                <div class="max-h-full overflow-scroll full-height-with-padding">
+                    {% for route in routes %}
+                        <a href="{{ path('app_set', {'setId': setId, 'routeId': route.id}) }}">
+                            <div :class="routeId == '{{ route.id }}' ? 'bg-teal-300' : ''"
+                                 class="border-b-2 hover:bg-teal-100"><span
+                                        style="color: #{{ route.color }}">{{ route.name }}</span>
+                                - {{ (route.distance / 1000) | round(1, 'floor') }} km - {{ ((route.duration / 60) / 60) | round(1, 'floor') }} h
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="points basis-1/3 h-full">
+                <div class="w-full rounded text-center bg-gray-100 p-3">Punkty
+                </div>
+                <div>
+                    {% if routeId %}
+                        {% for point in points %}
+                            <div class="border-b-2 hover:bg-teal-100">{{ point.name }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- Right Side -->
-        <div class="w-1/2 bg-gray-400">
-                <!-- Content for the right side -->
-                <div id="map" class="h-full w-full"></div>
-        </div>
+    <!-- Right Side -->
+    <div class="w-1/2 bg-gray-400">
+        <!-- Content for the right side -->
+        <div id="map" class="h-full w-full"></div>
+    </div>
 
-        <script>
-                mapboxgl.accessToken = "pk.eyJ1Ijoia2N6ZXJlY3pvbiIsImEiOiJja29zdmZpM3YwNWhqMndvYWphemc0MDBoIn0.i558tTzbzGDUtvye0cYfcw";
-                const map = new mapboxgl.Map({
-                        container: 'map',
-                        style: 'mapbox://styles/mapbox/streets-v12',
-                        center: [19.0, 52.0],
-                        zoom: 5
+    <script>
+        mapboxgl.accessToken = "pk.eyJ1Ijoia2N6ZXJlY3pvbiIsImEiOiJja29zdmZpM3YwNWhqMndvYWphemc0MDBoIn0.i558tTzbzGDUtvye0cYfcw";
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [19.0, 52.0],
+            zoom: 5
+        });
+
+        let twigData = document.querySelector('.twig-data');
+        let routes = JSON.parse(twigData.dataset.routes);
+        let route = JSON.parse(twigData.dataset.route);
+        let points = JSON.parse(twigData.dataset.points);
+
+        console.log(points);
+
+        map.on('load', () => {
+
+            points.forEach(point => {
+                console.log(point)
+                const marker = new mapboxgl.Marker({
+                    color: "#FFFFFF",
+                    draggable: false
+                }).setLngLat([point.lon, point.lat])
+                    .addTo(map);
+            })
+
+            if (!route) {
+                routes.forEach(route => {
+                    route.points.forEach(point => {
+                        const marker = new mapboxgl.Marker({
+                            color: "#" + route.color,
+                            draggable: false
+                        }).setLngLat([point.lon, point.lat])
+                            .addTo(map);
+                    })
+
+                    try {
+                        map.addSource("route" + route.id, {
+                            'type': 'geojson',
+                            'data': route.routeData
+                        });
+                    } catch (e) {
+                        // console.log(e);
+                    }
+
+                    map.addLayer({
+                        'id': "route" + route.id,
+                        'type': 'line',
+                        'source': "route" + route.id,
+                        'layout': {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        'paint': {
+                            'line-color': '#' + route.color,
+                            'line-width': 8
+                        }
+                    });
+                })
+            } else {
+                route.points.forEach(point => {
+                    const marker = new mapboxgl.Marker({
+                        color: "#" + route.color,
+                        draggable: false
+                    }).setLngLat([point.lon, point.lat])
+                        .addTo(map);
                 });
 
-                let twigData = document.querySelector('.twig-data');
-                let routes = JSON.parse(twigData.dataset.routes);
-                let route = JSON.parse(twigData.dataset.route);
-                let points = JSON.parse(twigData.dataset.points);
+                map.addSource("route" + route.id, {
+                    'type': 'geojson',
+                    'data': route.routeData
+                });
 
-                console.log(points);
-
-                map.on('load', () => {
-
-                        points.forEach(point => {
-                                console.log(point)
-                                const marker = new mapboxgl.Marker({
-                                        color: "#FFFFFF",
-                                        draggable: false
-                                }).setLngLat([point.lon, point.lat])
-                                        .addTo(map);
-                        })
-
-                        if (!route) {
-                                routes.forEach(route => {
-                                        route.points.forEach(point => {
-                                                const marker = new mapboxgl.Marker({
-                                                        color: "#" + route.color,
-                                                        draggable: false
-                                                }).setLngLat([point.lon, point.lat])
-                                                        .addTo(map);
-                                        })
-
-                                        map.addSource("route" + route.id, {
-                                                'type': 'geojson',
-                                                'data': route.routeData
-                                        });
-
-                                        map.addLayer({
-                                                'id': "route" + route.id,
-                                                'type': 'line',
-                                                'source': "route" + route.id,
-                                                'layout': {
-                                                        'line-join': 'round',
-                                                        'line-cap': 'round'
-                                                },
-                                                'paint': {
-                                                        'line-color': '#' + route.color,
-                                                        'line-width': 8
-                                                }
-                                        });
-                                })
-                        } else {
-                                route.points.forEach(point => {
-                                        const marker = new mapboxgl.Marker({
-                                                color: "#" + route.color,
-                                                draggable: false
-                                        }).setLngLat([point.lon, point.lat])
-                                                .addTo(map);
-                                });
-
-                                map.addSource("route" + route.id, {
-                                        'type': 'geojson',
-                                        'data': route.routeData
-                                });
-
-                                map.addLayer({
-                                        'id': "route" + route.id,
-                                        'type': 'line',
-                                        'source': "route" + route.id,
-                                        'layout': {
-                                                'line-join': 'round',
-                                                'line-cap': 'round'
-                                        },
-                                        'paint': {
-                                                'line-color': '#' + route.color,
-                                                'line-width': 8
-                                        }
-                                });
-                        }
-                })
-
-                function handleClick(e) {
-                        alert(e);
-                }
-        </script>
+                map.addLayer({
+                    'id': "route" + route.id,
+                    'type': 'line',
+                    'source': "route" + route.id,
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#' + route.color,
+                        'line-width': 8
+                    }
+                });
+            }
+        })
+    </script>
 {% endblock %}
-
-{#{% block body %}#}
-{#    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>#}
-{#    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>#}
-{#    <div class="hidden twig-data"#}
-{#         data-points="{{ pointsWithoutRoutes|serialize(format = 'json') }}"#}
-{#         data-route="{{ route|serialize(format = 'json', context = {'groups': ['route']}) }}"#}
-{#         data-routes="{{ routes|serialize(format = 'json', context = {'groups': ['route']}) }}"></div>#}
-{#    <div class="flex flex-row h-full max-h-full gap-2"#}
-{#         x-data="{ setId: {{ setId|default(false) }} {% if routeId %},routeId: {{ routeId }} {% endif %}}">#}
-{#        <div class="flex flex-row basis-1/2 h-full gap-2">#}
-{#            <div class="sets basis-1/3">#}
-{#                <div class="w-full rounded text-center bg-gray-100 p-3">Zbiory</div>#}
-{#                <div>#}
-{#                    {% for set in sets %}#}
-{#                        <a href="{{ path('app_set', {'setId': set.id}) }}">#}
-{#                            <div :class="setId == '{{ set.id }}' ? 'bg-teal-300' : ''"#}
-{#                                 class="border-b-2 hover:bg-teal-100">{{ set.name }}</div>#}
-{#                        </a>#}
-{#                    {% endfor %}#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="routes basis-1/3 h-full">#}
-{#                <div class="w-full rounded text-center bg-gray-100 p-3">Trasy#}
-{#                </div>#}
-{#                <div>#}
-{#                    {% for route in routes %}#}
-{#                        <a href="{{ path('app_set', {'setId': setId, 'routeId': route.id}) }}">#}
-{#                            <div :class="routeId == '{{ route.id }}' ? 'bg-teal-300' : ''"#}
-{#                                 class="border-b-2 hover:bg-teal-100"> <span style="color: #{{ route.color }}">{{ route.name }}</span> - {{ route.distance / 1000  }} km - {{ (route.duration / 60) / 60  }} h </div>#}
-{#                        </a>#}
-{#                    {% endfor %}#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="points basis-1/3 flex flex-col">#}
-{#                <div class="flex-1 w-full rounded text-center bg-gray-100 p-3">Punkty</div>#}
-{#                <div class="flex-auto flex flex-col flex-nowrap h-96">#}
-{#                    {% if routeId %}#}
-{#                        {% for point in points %}#}
-{#                            <div class="border-b-2 hover:bg-teal-100">{{ point.name }}</div>#}
-{#                        {% endfor %}#}
-{#                    {% endif %}#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div id="map" class="h-full basis-1/2 rounded"></div>#}
-{#    </div>#}
-
-{#    <script>#}
-{#        mapboxgl.accessToken = "pk.eyJ1Ijoia2N6ZXJlY3pvbiIsImEiOiJja29zdmZpM3YwNWhqMndvYWphemc0MDBoIn0.i558tTzbzGDUtvye0cYfcw";#}
-{#        const map = new mapboxgl.Map({#}
-{#            container: 'map',#}
-{#            style: 'mapbox://styles/mapbox/streets-v12',#}
-{#            center: [19.0, 52.0],#}
-{#            zoom: 5#}
-{#        });#}
-
-
-
-{#        #}{# let points = {{ pointsWithoutRoutes.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }}; #}
-{#        #}{# let routePoints = {{ points.toArray|default([])|json_encode(constant('JSON_HEX_QUOT'))|raw }}; #}
-
-{#        let twigData = document.querySelector('.twig-data');#}
-{#        let routes = JSON.parse(twigData.dataset.routes);#}
-{#        let route = JSON.parse(twigData.dataset.route);#}
-{#        let points = JSON.parse(twigData.dataset.points);#}
-
-{#        console.log(points);#}
-
-{#        map.on('load', () => {#}
-
-{#            points.forEach(point => {#}
-{#                console.log(point)#}
-{#                const marker = new mapboxgl.Marker({#}
-{#                    color: "#FFFFFF",#}
-{#                    draggable: false#}
-{#                }).setLngLat([point.lon, point.lat])#}
-{#                    .addTo(map);#}
-{#            })#}
-
-{#            if (!route) {#}
-{#                routes.forEach(route => {#}
-{#                    route.points.forEach(point => {#}
-{#                        const marker = new mapboxgl.Marker({#}
-{#                            color: "#" + route.color,#}
-{#                            draggable: false#}
-{#                        }).setLngLat([point.lon, point.lat])#}
-{#                            .addTo(map);#}
-{#                    })#}
-
-{#                    map.addSource("route" + route.id, {#}
-{#                        'type': 'geojson',#}
-{#                        'data': route.routeData#}
-{#                    });#}
-
-{#                    map.addLayer({#}
-{#                        'id': "route" + route.id,#}
-{#                        'type': 'line',#}
-{#                        'source': "route" + route.id,#}
-{#                        'layout': {#}
-{#                            'line-join': 'round',#}
-{#                            'line-cap': 'round'#}
-{#                        },#}
-{#                        'paint': {#}
-{#                            'line-color': '#' + route.color,#}
-{#                            'line-width': 8#}
-{#                        }#}
-{#                    });#}
-{#                })#}
-{#            } else {#}
-{#                route.points.forEach(point => {#}
-{#                    const marker = new mapboxgl.Marker({#}
-{#                        color: "#" + route.color,#}
-{#                        draggable: false#}
-{#                    }).setLngLat([point.lon, point.lat])#}
-{#                        .addTo(map);#}
-{#                });#}
-
-{#                map.addSource("route" + route.id, {#}
-{#                    'type': 'geojson',#}
-{#                    'data': route.routeData#}
-{#                });#}
-
-{#                map.addLayer({#}
-{#                    'id': "route" + route.id,#}
-{#                    'type': 'line',#}
-{#                    'source': "route" + route.id,#}
-{#                    'layout': {#}
-{#                        'line-join': 'round',#}
-{#                        'line-cap': 'round'#}
-{#                    },#}
-{#                    'paint': {#}
-{#                        'line-color': '#' + route.color,#}
-{#                        'line-width': 8#}
-{#                    }#}
-{#                });#}
-{#            }#}
-{#        })#}
-
-{#        function handleClick(e) {#}
-{#            alert(e);#}
-{#        }#}
-{#    </script>#}
-{#{% endblock %}#}

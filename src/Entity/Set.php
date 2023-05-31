@@ -25,6 +25,7 @@ class Set
 
     #[Groups("set")]
     #[ORM\OneToMany(mappedBy: 'set', targetEntity: Route::class)]
+    #[ORM\OrderBy(["distance" => "DESC"])]
     private Collection $routes;
 
     public function __construct()
