@@ -6,7 +6,7 @@ use App\Models\Car;
 use App\Repository\PointRepository;
 use App\Repository\RouteRepository;
 use App\Service\MapboxService;
-use App\Service\PointService;
+use App\Service\RouteService;
 use App\Service\RouteService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -25,7 +25,7 @@ class RouteController extends AbstractController
         \App\Entity\Set $set,
         PointRepository $pointRepository,
         RouteRepository $routeRepository,
-        PointService $pointService,
+        RouteService $pointService,
         RouteService $routeService,
         EntityManagerInterface $entityManager,
         MapboxService $mapboxService

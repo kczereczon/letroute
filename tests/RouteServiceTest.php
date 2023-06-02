@@ -3,7 +3,7 @@
 namespace App\Tests;
 
 use App\Interfaces\Car;
-use App\Service\PointService;
+use App\Service\RouteService;
 use App\Service\RouteService;
 use App\Tests\Stubs\CarStub;
 use App\Tests\Stubs\CoordinatesStub;
@@ -24,7 +24,7 @@ class RouteServiceTest extends TestCase
         array $expectedRoute
     ): void {
         $pointsCollection = new ArrayCollection($points);
-        $pointServiceMock = $this->createPartialMock(PointService::class, []);
+        $pointServiceMock = $this->createPartialMock(RouteService::class, []);
         $routeServiceMock = $this->getMockBuilder(RouteService::class)->setConstructorArgs([$pointServiceMock]
         )->onlyMethods([])->getMock();
 

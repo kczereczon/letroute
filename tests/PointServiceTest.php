@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use App\Entity\Point;
 use App\Interfaces\Coordinates;
-use App\Service\PointService;
+use App\Service\RouteService;
 use App\Tests\Stubs\CoordinatesStub;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ class PointServiceTest extends TestCase
 {
     public function test_get_distance_between_points(): void
     {
-        $pointServiceMock = $this->createPartialMock(PointService::class, []);
+        $pointServiceMock = $this->createPartialMock(RouteService::class, []);
 
         $aPoint = new CoordinatesStub(x: 0.0, y: 3.0);
         $bPoint = new CoordinatesStub(x: 4.0, y: 0.0);
@@ -36,7 +36,7 @@ class PointServiceTest extends TestCase
         CoordinatesStub $centroid,
         CoordinatesStub $expected
     ): void {
-        $pointServiceMock = $this->createPartialMock(PointService::class, []);
+        $pointServiceMock = $this->createPartialMock(RouteService::class, []);
         $pointsArrayCollection = new ArrayCollection();
 
         foreach ($points as $point) {

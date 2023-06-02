@@ -2,43 +2,48 @@
 
 namespace App\Service;
 
-use App\Interfaces\Car;
-use App\Entity\Point;
+use App\Domain\RouteServiceInterface;
+use App\Entity\Set;
 use App\Interfaces\Coordinates;
+use App\Interfaces\Point;
+use App\Models\Car;
 use App\Models\Centroid;
+use App\Repository\PointRepository;
+use App\RouteGenerator\RouteGeneratorInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\NonUniqueResultException;
 
-class RouteService
+class RouteService implements RouteServiceInterface
 {
+    public Collection $cars;
+    public float $maximumDistance;
+    public float $maximumDuration;
 
-    public function __construct(private PointService $pointService)
+    public function __construct(private RouteGeneratorInterface $routeGenerator)
     {
     }
 
-    /**
-     * @param Collection<Point> $points
-     * @param Car $car
-     * @return array<Point>
-     * @throws \Exception
-     */
-    public function createRouteForCar(Collection &$points, Car $car): array {
-        $route = [];
-        $points = $this->pointService->sortPointsByDistance($points, $car->getCentroid());
-        foreach ($points as $key => $point) {
-            $points = $this->pointService->sortPointsByDistance($points, $car->getCentroid());
+    public function generateRoutes(Set $set): \Doctrine\Common\Collections\Collection
+    {
+        return $this->routeGenerator->generate($set, $this->cars, $this->maximumDuration, $this->maximumDistance);
+    }
 
-            if($car->canCarry($point->getWeight())) {
-                $car->setCentroid($point);
-                $car->addWeight($point->getWeight());
-                $route[] = $point;
-                $points->remove($key);
-            }
+    public function setCars(Collection $cars): RouteServiceInterface
+    {
+        $this->cars = $cars;
+        return $this;
+    }
 
-            if($car->getCurrentWeight() >= $car->getAllowedWeight() * 0.8) {
-                break;
-            }
-        }
+    public function setMaximumDistance(float $distance): RouteServiceInterface
+    {
+        $this->maximumDistance = $distance;
+        return $this;
+    }
 
-        return $route;
+    public function setMaximumDuration(float $duration): RouteServiceInterface
+    {
+        $this->maximumDuration = $duration;
+        return $this;
     }
 }

@@ -5,7 +5,7 @@ namespace App\Domain;
 use App\Entity\Set;
 use Doctrine\Common\Collections\Collection;
 
-interface PointServiceInterface
+interface RouteServiceInterface
 {
     public function generateRoutes(Set $set): \Doctrine\Common\Collections\Collection;
     public function setCars(Collection $cars): self;

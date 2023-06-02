@@ -1,20 +1,67 @@
 <?php
 
-namespace App\Service;
+namespace App\RouteGenerator;
 
 use App\Entity\Set;
 use App\Interfaces\Coordinates;
 use App\Interfaces\Point;
+use App\Models\Car;
 use App\Models\Centroid;
 use App\Repository\PointRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 
-class PointService
+class KnnRouteGenerator implements RouteGeneratorInterface
 {
-    public function __construct(private PointRepository $pointRepository)
+    public function __construct(private PointRepository $pointRepository, private EntityManagerInterface $entityManager)
     {
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function generate(
+        \App\Entity\Set $set,
+        Collection $cars,
+        float $maximumDuration,
+        float $maximumDistance
+    ): \Doctrine\Common\Collections\Collection {
+        $points = $this->pointRepository->getPointsWithoutRoute($set);
+
+        $triesCount = 0;
+
+        while ($points->count() > 0 && $triesCount < 3) {
+
+
+            $car = new Car("car1", 1000, 0);
+            $car->setCentroid($this->getRandomCentroid($set));
+
+
+
+            if (!count($routePoints)) {
+                $triesCount++;
+                continue;
+            }
+
+            $route = new \App\Entity\Route();
+
+//            $routeData = $mapboxService->getRouteData($routePoints);
+            foreach ($routePoints as $routePoint) {
+                $route->setName($car->getName() . ' - route');
+                $route->setColor(sprintf('%06X', random_int(0, 0xFFFFFF)));
+                $route->addPoint($routePoint);
+                $route->setSet($set);
+//                $route->setRouteData($routeData['geometry']);
+//                $route->setDistance($routeData['distance']);
+//                $route->setDuration($routeData['duration']);
+                $this->entityManager->persist($route);
+            }
+        }
+
+        $this->entityManager->flush();
+
     }
 
     public function getDistanceBetweenPoints(Coordinates $a, Coordinates $b): float
@@ -60,4 +107,5 @@ class PointService
 
         return new Centroid($x, $y);
     }
+
 }
