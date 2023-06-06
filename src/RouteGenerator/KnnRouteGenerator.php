@@ -2,6 +2,7 @@
 
 namespace App\RouteGenerator;
 
+use App\Entity\Route;
 use App\Entity\Set;
 use App\Interfaces\Coordinates;
 use App\Interfaces\Point;
@@ -30,6 +31,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
      * @param float $maximumDistance
      * @return Collection<Point>
      * @throws NonUniqueResultException
+     * @throws \Exception
      */
     public function generate(
         \App\Entity\Set $set,
@@ -41,41 +43,43 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
         $triesCount = 0;
 
+        /** @var ArrayCollection<int, ArrayCollection<Point>> $routes */
+        $routes = new \Doctrine\Common\Collections\ArrayCollection();
+
         while ($points->count() > 0 && $triesCount < 3) {
             /** @var Car $car */
             $car = clone $cars->current();
             $car->setCentroid($this->getRandomCentroid($set));
 
-            $points = $this->sortPointsByDistance($points, $car->getCentroid());
             $routePoints = new ArrayCollection();
 
-            while ($car->canCarry($points->first()) && $this->durationCalculator->calculateDuration(
-                    $routePoints
-                ) < 20000 && $this->distanceCalculator->calculateDistance($routePoints) < 3000) {
+            while (true) {
+                $points = $this->sortPointsByDistance($points, $car->getCentroid());
+                $point = $points->first();
+
+                if(!$car->canCarry($points->first())) {
+                    break;
+                }
+
+                if($this->durationCalculator->calculateDuration(
+                        $routePoints
+                    ) < 20000) {
+                    break;
+                }
+
+                if($this->distanceCalculator->calculateDistance($routePoints) < 3000) {
+                    break;
+                }
+
+                $routePoints->add($point);
+                $points->removeElement($point);
+                $car->setCentroid($point);
             }
 
-
-//            if (!count($routePoints)) {
-//                $triesCount++;
-//                continue;
-//            }
-//
-//            $route = new \App\Entity\Route();
-//
-////            $routeData = $mapboxService->getRouteData($routePoints);
-//            foreach ($routePoints as $routePoint) {
-//                $route->setName($car->getName() . ' - route');
-//                $route->setColor(sprintf('%06X', random_int(0, 0xFFFFFF)));
-//                $route->addPoint($routePoint);
-//                $route->setSet($set);
-////                $route->setRouteData($routeData['geometry']);
-////                $route->setDistance($routeData['distance']);
-////                $route->setDuration($routeData['duration']);
-//                $this->entityManager->persist($route);
-//            }
+            if (!count($routePoints)) {
+                $triesCount++;
+            }
         }
-
-        $this->entityManager->flush();
     }
 
     public function getDistanceBetweenPoints(Coordinates $a, Coordinates $b): float
