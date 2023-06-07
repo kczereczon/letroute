@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Domain\RouteServiceInterface;
+use App\Entity\Route;
 use App\Entity\Set;
 use App\Interfaces\Coordinates;
 use App\Interfaces\Point;
@@ -12,6 +13,7 @@ use App\Repository\PointRepository;
 use App\RouteGenerator\RouteGeneratorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 
 class RouteService implements RouteServiceInterface
@@ -20,13 +22,43 @@ class RouteService implements RouteServiceInterface
     public float $maximumDistance;
     public float $maximumDuration;
 
-    public function __construct(private RouteGeneratorInterface $routeGenerator)
-    {
+    public function __construct(
+        private RouteGeneratorInterface $routeGenerator,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function generateRoutes(Set $set): \Doctrine\Common\Collections\Collection
     {
-        return $this->routeGenerator->generate($set, $this->cars, $this->maximumDuration, $this->maximumDistance);
+        $routesPoints = $this->routeGenerator->generate(
+            $set,
+            new ArrayCollection([new Car('car', 1100, 0)]),
+            20000,
+            300000
+        );
+
+        $routes = new ArrayCollection();
+
+        $i = 0;
+        foreach ($routesPoints as $routePoints) {
+            $route = new Route();
+            $route->setColor('#' . dechex(random_int(0x000000, 0xFFFFFF)));
+            $route->setName("R-" . sprintf("%'.04d\n", $i));
+            $route->setSet($set);
+            /** @var Point $point */
+            foreach ($routePoints as $point) {
+                $route->addPoint($point);
+            }
+
+            $i++;
+
+            $routes[] = $route;
+
+            $this->entityManager->persist($route);
+        }
+
+        $this->entityManager->flush();
+        return $routes;
     }
 
     public function setCars(Collection $cars): RouteServiceInterface

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\DistanceCalculator;
+
 interface DistanceCalculatorInterface
 {
     /**

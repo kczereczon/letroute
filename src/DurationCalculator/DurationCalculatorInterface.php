@@ -1,5 +1,7 @@
 <?php
 
+namespace App\DurationCalculator;
+
 interface DurationCalculatorInterface
 {
 

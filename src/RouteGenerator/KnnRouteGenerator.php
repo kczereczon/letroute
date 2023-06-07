@@ -2,6 +2,8 @@
 
 namespace App\RouteGenerator;
 
+use App\DistanceCalculator\DistanceCalculatorInterface;
+use App\DurationCalculator\DurationCalculatorInterface;
 use App\Entity\Route;
 use App\Entity\Set;
 use App\Interfaces\Coordinates;
@@ -18,9 +20,8 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 {
     public function __construct(
         private PointRepository $pointRepository,
-        private EntityManagerInterface $entityManager,
-        private \DurationCalculatorInterface $durationCalculator,
-        private \DistanceCalculatorInterface $distanceCalculator
+        private DurationCalculatorInterface $durationCalculator,
+        private DistanceCalculatorInterface $distanceCalculator
     ) {
     }
 
@@ -29,7 +30,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
      * @param Collection<Car> $cars
      * @param float $maximumDuration
      * @param float $maximumDistance
-     * @return Collection<Point>
+     * @return Collection<Collection<Point>>
      * @throws NonUniqueResultException
      * @throws \Exception
      */
@@ -43,7 +44,6 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
         $triesCount = 0;
 
-        /** @var ArrayCollection<int, ArrayCollection<Point>> $routes */
         $routes = new \Doctrine\Common\Collections\ArrayCollection();
 
         while ($points->count() > 0 && $triesCount < 3) {
@@ -57,7 +57,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
                 $points = $this->sortPointsByDistance($points, $car->getCentroid());
                 $point = $points->first();
 
-                if(!$car->canCarry($points->first())) {
+                if(!$car->canCarry($points->first()->getWeight())) {
                     break;
                 }
 
@@ -78,8 +78,12 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
             if (!count($routePoints)) {
                 $triesCount++;
+            } else {
+                $routes[] = $routePoints;
             }
         }
+
+        return $routes;
     }
 
     public function getDistanceBetweenPoints(Coordinates $a, Coordinates $b): float

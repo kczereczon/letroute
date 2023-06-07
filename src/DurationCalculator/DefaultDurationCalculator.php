@@ -1,5 +1,9 @@
 <?php
 
+namespace App\DurationCalculator;
+
+use App\DistanceCalculator\DistanceCalculatorInterface;
+
 class DefaultDurationCalculator implements DurationCalculatorInterface
 {
     const AVG_METERS_PER_HOUR = 60000;
