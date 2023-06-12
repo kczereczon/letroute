@@ -40,22 +40,7 @@ class RouteService implements RouteServiceInterface
         $routes = new ArrayCollection();
 
         $i = 0;
-        foreach ($routesPoints as $routePoints) {
-            $route = new Route();
-            $route->setColor('#' . dechex(random_int(0x000000, 0xFFFFFF)));
-            $route->setName("R-" . sprintf("%'.04d\n", $i));
-            $route->setSet($set);
-            /** @var Point $point */
-            foreach ($routePoints as $point) {
-                $route->addPoint($point);
-            }
 
-            $i++;
-
-            $routes[] = $route;
-
-            $this->entityManager->persist($route);
-        }
 
         $this->entityManager->flush();
         return $routes;

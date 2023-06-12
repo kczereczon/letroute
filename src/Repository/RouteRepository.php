@@ -39,28 +39,10 @@ class RouteRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Route[] Returns an array of Route objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Route
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getRouteCount(): int
+    {
+        $entityManager = $this->getEntityManager();
+        return $entityManager->createQueryBuilder('r')
+            ->select('r')->getMaxResults();
+    }
 }

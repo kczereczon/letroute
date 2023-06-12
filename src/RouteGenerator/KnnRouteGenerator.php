@@ -6,6 +6,7 @@ use App\DistanceCalculator\DistanceCalculatorInterface;
 use App\DurationCalculator\DurationCalculatorInterface;
 use App\Entity\Route;
 use App\Entity\Set;
+use App\Factory\RouteFactory;
 use App\Interfaces\Coordinates;
 use App\Interfaces\Point;
 use App\Models\Car;
@@ -21,7 +22,8 @@ class KnnRouteGenerator implements RouteGeneratorInterface
     public function __construct(
         private PointRepository $pointRepository,
         private DurationCalculatorInterface $durationCalculator,
-        private DistanceCalculatorInterface $distanceCalculator
+        private DistanceCalculatorInterface $distanceCalculator,
+        private RouteFactory $routeFactory
     ) {
     }
 
@@ -30,7 +32,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
      * @param Collection<Car> $cars
      * @param float $maximumDuration
      * @param float $maximumDistance
-     * @return Collection<Collection<Point>>
+     * @return Collection<Route>
      * @throws NonUniqueResultException
      * @throws \Exception
      */
@@ -45,6 +47,8 @@ class KnnRouteGenerator implements RouteGeneratorInterface
         $triesCount = 0;
 
         $routes = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $counter = 0;
 
         while ($points->count() > 0 && $triesCount < 3) {
             /** @var Car $car */
@@ -79,7 +83,8 @@ class KnnRouteGenerator implements RouteGeneratorInterface
             if (!count($routePoints)) {
                 $triesCount++;
             } else {
-                $routes[] = $routePoints;
+                $routes[] = $this->routeFactory->create($routePoints, $set, $counter);
+                $counter++;
             }
         }
 
