@@ -30,17 +30,16 @@ class RouteService implements RouteServiceInterface
 
     public function generateRoutes(Set $set): \Doctrine\Common\Collections\Collection
     {
-        $routesPoints = $this->routeGenerator->generate(
+        $routes = $this->routeGenerator->generate(
             $set,
             new ArrayCollection([new Car('car', 1100, 0)]),
             20000,
             300000
         );
 
-        $routes = new ArrayCollection();
-
-        $i = 0;
-
+        foreach ($routes as $route) {
+            $this->entityManager->persist($route);
+        }
 
         $this->entityManager->flush();
         return $routes;

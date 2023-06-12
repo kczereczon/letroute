@@ -14,8 +14,8 @@ class DefaultDistanceCalculator implements DistanceCalculatorInterface
         $distance = 0;
 
         for ($i = 1; $i < $points->count(); $i++) {
-            $pointA = $points->get($i-1);
-            $pointB = $points->get($i-2);
+            $pointA = $points->get($i);
+            $pointB = $points->get($i-1);
 
             $distance += $this->calculateDistanceBetweenCords($pointA, $pointB);
         }

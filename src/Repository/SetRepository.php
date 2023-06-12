@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SetRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private RouteRepository $routeRepository, private PointRepository $pointRepository)
     {
         parent::__construct($registry, Set::class);
     }
@@ -39,29 +39,22 @@ class SetRepository extends ServiceEntityRepository
         }
     }
 
+    public function remoteRoutes(Set $entity, bool $flush = false): void {
+        $routes = $entity->getRoutes();
 
-//    /**
-//     * @return Set[] Returns an array of Set objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        foreach ($routes as $route) {
+            $this->routeRepository->remove($route);
 
-//    public function findOneBySomeField($value): ?Set
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+            $points = $route->getPoints();
+
+            foreach ($points as $point) {
+                $point->setRoute(null);
+                $this->pointRepository->save($point);
+            }
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+    }
 }

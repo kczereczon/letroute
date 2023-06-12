@@ -50,7 +50,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
         $counter = 0;
 
-        while ($points->count() > 0 && $triesCount < 3) {
+        while ($points->count() > 0 && $triesCount < 100) {
             /** @var Car $car */
             $car = clone $cars->current();
             $car->setCentroid($this->getRandomCentroid($set));
@@ -67,11 +67,11 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
                 if($this->durationCalculator->calculateDuration(
                         $routePoints
-                    ) < 20000) {
+                    ) > 200000) {
                     break;
                 }
 
-                if($this->distanceCalculator->calculateDistance($routePoints) < 3000) {
+                if($this->distanceCalculator->calculateDistance($routePoints) > 30000) {
                     break;
                 }
 
@@ -84,6 +84,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
                 $triesCount++;
             } else {
                 $routes[] = $this->routeFactory->create($routePoints, $set, $counter);
+                $routePoints->clear();
                 $counter++;
             }
         }
@@ -130,6 +131,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
         $x = random_int($smallestLon->getLon() * 1000, $biggestLon->getLon() * 1000) / 1000;
         $y = random_int($smallestLat->getLon() * 1000, $biggestLat->getLon() * 1000) / 1000;
+
 
         return new Centroid($x, $y);
     }

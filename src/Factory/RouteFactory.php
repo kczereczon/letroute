@@ -22,7 +22,8 @@ class RouteFactory implements RouteFactoryInterface
     public function create(Collection $routePoints, Set $set, int $number): Route
     {
         $route = new Route();
-        $route->setColor('#' . dechex(random_int(0x000000, 0xFFFFFF)));
+        $color = dechex(random_int(0x000000, 0xFFFFFF));
+        $route->setColor($color);
         $route->setName("R-" . sprintf("%'.04d\n", $number));
         $route->setSet($set);
         $route->setDuration($this->durationCalculator->calculateDuration($routePoints));
