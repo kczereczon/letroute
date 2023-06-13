@@ -32,7 +32,7 @@ class RouteService implements RouteServiceInterface
     {
         $routes = $this->routeGenerator->generate(
             $set,
-            new ArrayCollection([new Car('car', 1100, 0)]),
+            new ArrayCollection([new Car('car', 2100, 0)]),
             20000,
             300000
         );

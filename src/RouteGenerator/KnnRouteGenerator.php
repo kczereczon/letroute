@@ -3,6 +3,7 @@
 namespace App\RouteGenerator;
 
 use App\DistanceCalculator\DistanceCalculatorInterface;
+use App\Domain\CentroidRandomizerInterface;
 use App\DurationCalculator\DurationCalculatorInterface;
 use App\Entity\Route;
 use App\Entity\Set;
@@ -23,7 +24,8 @@ class KnnRouteGenerator implements RouteGeneratorInterface
         private PointRepository $pointRepository,
         private DurationCalculatorInterface $durationCalculator,
         private DistanceCalculatorInterface $distanceCalculator,
-        private RouteFactory $routeFactory
+        private RouteFactory $routeFactory,
+        private CentroidRandomizerInterface $centroidRandomizer
     ) {
     }
 
@@ -53,7 +55,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
         while ($points->count() > 0 && $triesCount < 100) {
             /** @var Car $car */
             $car = clone $cars->current();
-            $car->setCentroid($this->getRandomCentroid($set));
+            $car->setCentroid($this->centroidRandomizer->getRandomCentroid(new Centroid(51.919438, 19.145136), 200));
 
             $routePoints = new ArrayCollection();
 
@@ -116,24 +118,6 @@ class KnnRouteGenerator implements RouteGeneratorInterface
         });
 
         return new ArrayCollection(iterator_to_array($iterator));
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     * @throws \Exception
-     */
-    public function getRandomCentroid(Set $set): Coordinates
-    {
-        $biggestLat = $this->pointRepository->findBiggestLat($set);
-        $biggestLon = $this->pointRepository->findBiggestLon($set);
-        $smallestLat = $this->pointRepository->findSmallestLat($set);
-        $smallestLon = $this->pointRepository->findSmallestLon($set);
-
-        $x = random_int($smallestLon->getLon() * 1000, $biggestLon->getLon() * 1000) / 1000;
-        $y = random_int($smallestLat->getLon() * 1000, $biggestLat->getLon() * 1000) / 1000;
-
-
-        return new Centroid($x, $y);
     }
 
 }
