@@ -69,11 +69,11 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
                 if($this->durationCalculator->calculateDuration(
                         $routePoints
-                    ) > 200000) {
+                    ) > $maximumDuration) {
                     break;
                 }
 
-                if($this->distanceCalculator->calculateDistance($routePoints) > 30000) {
+                if($this->distanceCalculator->calculateDistance($routePoints) > $maximumDistance) {
                     break;
                 }
 
