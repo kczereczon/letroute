@@ -25,7 +25,7 @@
                                     (meters)</label>
                                 <input type="text" id="maximum_distance" name="maximum_distance"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="300000" required>
+                                       placeholder="300000" value="{{ maximum_distance|default(300000) }}" required>
                             </div>
                             <div>
                                 <label for="maximum_duration"
@@ -33,7 +33,7 @@
                                     (hours)</label>
                                 <input type="text" id="maximum_duration" name="maximum_duration"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="5h" required>
+                                       placeholder="5h" value="{{ maximum_duration|default("5h") }}" required>
                             </div>
                             <div>
                                 <label for="start_point_radius"
@@ -41,7 +41,7 @@
                                     starting point</label>
                                 <input type="text" id="start_point_radius" name="start_point_radius"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="50" required>
+                                       placeholder="200" value="{{ start_point_radius|default("200") }}"  required>
                             </div>
                             <div class="flex content-center">
                                 <button class="inline-block mt-7 h-10 text-sm px-4 py-2 leading-none border rounded text-teal-500 border-teal-500 hover:border-transparent hover:text-teal-400 hover:bg-white">
@@ -190,6 +190,12 @@
                     }
                 });
             }
+
+            const el = document.createElement('div');
+            el.className = 'marker';
+
+            const marker = new mapboxgl.Marker(el, {draggable: true}).setLngLat([19.145136, 51.919438])
+                .addTo(map);
         })
     </script>
 {% endblock %}

@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.marker {
+    background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.tyrelawgroup.com%2Fwp-content%2Fuploads%2F2020%2F03%2Ffree-download-of-clipart-icon-home-png-1300x1300.png&f=1&nofb=1&ipt=392c4b0c7fd808ea18271b18d2b4b13e1afa6c32bae5bbc682583321f79c17ee&ipo=images');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
