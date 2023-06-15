@@ -39,7 +39,7 @@ class SetRepository extends ServiceEntityRepository
         }
     }
 
-    public function remoteRoutes(Set $entity, bool $flush = false): void {
+    public function removeRoutes(Set $entity, bool $flush = false): void {
         $routes = $entity->getRoutes();
 
         foreach ($routes as $route) {

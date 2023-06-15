@@ -18,23 +18,27 @@ use Doctrine\ORM\NonUniqueResultException;
 
 class RouteService implements RouteServiceInterface
 {
-    public Collection $cars;
-    public float $maximumDistance;
-    public float $maximumDuration;
-
     public function __construct(
         private RouteGeneratorInterface $routeGenerator,
         private EntityManagerInterface $entityManager
     ) {
     }
 
-    public function generateRoutes(Set $set): \Doctrine\Common\Collections\Collection
-    {
+    public function generateRoutes(
+        Set $set,
+        Collection $cars,
+        float $maximumDuration,
+        float $maximumDistance,
+        float $radius,
+        Coordinates $startCentroid
+    ): \Doctrine\Common\Collections\Collection {
         $routes = $this->routeGenerator->generate(
             $set,
-            new ArrayCollection([new Car('car', 2100, 0)]),
-            20000,
-            300000
+            $cars,
+            $maximumDuration,
+            $maximumDistance,
+            $radius,
+            $startCentroid
         );
 
         foreach ($routes as $route) {
@@ -43,23 +47,5 @@ class RouteService implements RouteServiceInterface
 
         $this->entityManager->flush();
         return $routes;
-    }
-
-    public function setCars(Collection $cars): RouteServiceInterface
-    {
-        $this->cars = $cars;
-        return $this;
-    }
-
-    public function setMaximumDistance(float $distance): RouteServiceInterface
-    {
-        $this->maximumDistance = $distance;
-        return $this;
-    }
-
-    public function setMaximumDuration(float $duration): RouteServiceInterface
-    {
-        $this->maximumDuration = $duration;
-        return $this;
     }
 }

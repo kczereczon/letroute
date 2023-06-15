@@ -2,6 +2,7 @@
 
 namespace App\RouteGenerator;
 
+use App\Interfaces\Coordinates;
 use Doctrine\Common\Collections\Collection;
 
 interface RouteGeneratorInterface
@@ -10,6 +11,8 @@ interface RouteGeneratorInterface
         \App\Entity\Set $set,
         Collection $cars,
         float $maximumDuration,
-        float $maximumDistance
+        float $maximumDistance,
+        float $radius,
+        Coordinates $startCentroid
     ): \Doctrine\Common\Collections\Collection;
 }

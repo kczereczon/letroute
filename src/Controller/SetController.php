@@ -63,7 +63,10 @@ class SetController extends AbstractController
             'points' => $points,
             'routes' => $routes,
             'setId' => $setId,
-            'routeId' => $routeId
+            'routeId' => $routeId,
+            "maximum_distance" => $request->get('maximum_distance'),
+            "maximum_duration" => $request->get('maximum_duration'),
+            "radius" => $request->get('radius')
         ]);
     }
 

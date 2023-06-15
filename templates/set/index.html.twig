@@ -30,18 +30,19 @@
                             <div>
                                 <label for="maximum_duration"
                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max duration
-                                    (hours)</label>
+                                    (seconds)</label>
+
                                 <input type="text" id="maximum_duration" name="maximum_duration"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="5h" value="{{ maximum_duration|default("5h") }}" required>
+                                       placeholder="18000" value="{{ maximum_duration|default(18000) }}" required>
                             </div>
                             <div>
-                                <label for="start_point_radius"
+                                <label for="radius"
                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Radius of
                                     starting point</label>
-                                <input type="text" id="start_point_radius" name="start_point_radius"
+                                <input type="text" id="radius" name="radius"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="200" value="{{ start_point_radius|default("200") }}"  required>
+                                       placeholder="200" value="{{ radius|default(200) }}"  required>
                             </div>
                             <div class="flex content-center">
                                 <button class="inline-block mt-7 h-10 text-sm px-4 py-2 leading-none border rounded text-teal-500 border-teal-500 hover:border-transparent hover:text-teal-400 hover:bg-white">
