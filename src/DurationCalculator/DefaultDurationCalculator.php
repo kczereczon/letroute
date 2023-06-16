@@ -3,6 +3,7 @@
 namespace App\DurationCalculator;
 
 use App\DistanceCalculator\DistanceCalculatorInterface;
+use App\Interfaces\Coordinates;
 
 class DefaultDurationCalculator implements DurationCalculatorInterface
 {
@@ -12,11 +13,11 @@ class DefaultDurationCalculator implements DurationCalculatorInterface
     {
     }
 
-    public function calculateDuration(\Doctrine\Common\Collections\Collection $points): int
+    public function calculateDuration(\Doctrine\Common\Collections\Collection $points, Coordinates $startPoint, Coordinates $endPoint): int
     {
         $metersPerSecond = self::AVG_METERS_PER_HOUR / 3600;
 
-        $distance = $this->distanceCalculator->calculateDistance($points);
+        $distance = $this->distanceCalculator->calculateDistance($points, $startPoint, $endPoint);
         return (int)($distance / $metersPerSecond);
     }
 }

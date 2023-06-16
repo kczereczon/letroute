@@ -54,7 +54,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
         $counter = 0;
 
-        while ($points->count() > 0 && $triesCount < 10) {
+        while ($points->count() > 0 && $triesCount < 500) {
             /** @var Car $car */
             $car = clone $cars->current();
             $car->setCentroid($this->centroidRandomizer->getRandomCentroid($startCentroid, $radius));
@@ -64,30 +64,39 @@ class KnnRouteGenerator implements RouteGeneratorInterface
             while (true) {
                 $points = $this->sortPointsByDistance($points, $car->getCentroid());
                 $point = $points->first();
+                $routePoints->add($point);
 
                 if (!$car->canCarry($points->first()->getWeight())) {
+                    $routePoints->removeElement($routePoints->last());
+                    break;
+                }
+
+                if ($this->distanceCalculator->calculateDistance(
+                        $routePoints,
+                        $startCentroid,
+                        $startCentroid
+                    ) > $maximumDistance) {
+                    $routePoints->removeElement($routePoints->last());
                     break;
                 }
 
                 if ($this->durationCalculator->calculateDuration(
-                        $routePoints
+                        $routePoints,
+                        $startCentroid,
+                        $startCentroid
                     ) > $maximumDuration) {
+                    $routePoints->removeElement($routePoints->last());
                     break;
                 }
-
-                if ($this->distanceCalculator->calculateDistance($routePoints) > $maximumDistance) {
-                    break;
-                }
-
-                $routePoints->add($point);
                 $points->removeElement($point);
                 $car->setCentroid($point);
             }
 
             if (count($routePoints) > 1) {
-                $routes[] = $this->routeFactory->create($routePoints, $set, $counter);
+                $routes[] = $this->routeFactory->create($routePoints, $set, $counter, $startCentroid, $startCentroid);
                 $routePoints->clear();
                 $counter++;
+                $triesCount = 0;
             } else {
                 $triesCount++;
             }

@@ -38,7 +38,7 @@ class RouteController extends AbstractController
             $request->get('maximum_duration'),
             $request->get('maximum_distance'),
             $request->get('radius'),
-            new Centroid(51.919438, 19.145136)
+            new Centroid(19.145136, 51.919438)
         );
 
         return $this->redirectToRoute('app_set', parameters: [

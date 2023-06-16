@@ -12,12 +12,16 @@ class CircularCentroidRandomizer implements \App\Domain\CentroidRandomizerInterf
      */
     public function getRandomCentroid(Coordinates $center, float $radius): Coordinates
     {
-        $angle = random_int(0, 359) * (M_PI / 180);
 
-        // Calculate the coordinates of the point on the circle
-        $x = $center->getX() + $radius * cos($angle);
-        $y = $center->getY() + $radius * sin($angle);
+        $radius = $radius / 111300;
 
-        return new Centroid($x, $y);
+        $w = $radius * sqrt(random_int(0, 10) / 10);
+        $t = 2 * M_PI * (random_int(0, 10) / 10);
+        $x = $w * cos($t);
+        $y = $w * sin($t);
+
+        $x = $x / cos($center->getY());
+
+        return new Centroid($center->getX() + $x, $center->getY() + $y);
     }
 }

@@ -2,16 +2,17 @@
 
 namespace App\DistanceCalculator;
 
+use App\Interfaces\Coordinates;
+
 class DefaultDistanceCalculator implements DistanceCalculatorInterface
 {
 
-    public function calculateDistance(\Doctrine\Common\Collections\Collection $points): int
+    public function calculateDistance(\Doctrine\Common\Collections\Collection $points, Coordinates $startPoint, Coordinates $endPoint): int
     {
-        if($points->count() === 1) {
-            return 0;
-        }
 
         $distance = 0;
+
+        $distance += $this->calculateDistanceBetweenCords($startPoint, $points->first());
 
         for ($i = 1; $i < $points->count(); $i++) {
             $pointA = $points->get($i);
@@ -19,6 +20,8 @@ class DefaultDistanceCalculator implements DistanceCalculatorInterface
 
             $distance += $this->calculateDistanceBetweenCords($pointA, $pointB);
         }
+
+        $distance += $this->calculateDistanceBetweenCords($endPoint, $points->last());
 
         return $distance;
     }

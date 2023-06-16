@@ -7,6 +7,7 @@ use App\Domain\RouteFactoryInterface;
 use App\DurationCalculator\DurationCalculatorInterface;
 use App\Entity\Route;
 use App\Entity\Set;
+use App\Interfaces\Coordinates;
 use App\Interfaces\Point;
 use App\Repository\RouteRepository;
 use App\RouteGenerator\RouteGeneratorInterface;
@@ -19,15 +20,15 @@ class RouteFactory implements RouteFactoryInterface
     {
     }
 
-    public function create(Collection $routePoints, Set $set, int $number): Route
+    public function create(Collection $routePoints, Set $set, int $number, Coordinates $startPoint, Coordinates $endPoint): Route
     {
         $route = new Route();
         $color = dechex(random_int(0x000000, 0xFFFFFF));
         $route->setColor($color);
         $route->setName("R-" . sprintf("%'.04d\n", $number));
         $route->setSet($set);
-        $route->setDuration($this->durationCalculator->calculateDuration($routePoints));
-        $route->setDistance($this->distanceCalculator->calculateDistance($routePoints));
+        $route->setDuration($this->durationCalculator->calculateDuration($routePoints, $startPoint, $endPoint));
+        $route->setDistance($this->distanceCalculator->calculateDistance($routePoints, $startPoint, $endPoint));
 
         /** @var Point $point */
         foreach ($routePoints as $point) {
