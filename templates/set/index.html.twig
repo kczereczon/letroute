@@ -20,29 +20,21 @@
                     <form action="{{ path('app_generate_routes', {'id': setId}) }}" method="POST">
                         <div class="grid gap-5 md:grid-cols-4">
                             <div>
-                                <label for="maximum_distance"
-                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max distance
+                                <label for="maximum_distance" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max distance
                                     (meters)</label>
-                                <input type="text" id="maximum_distance" name="maximum_distance"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="300000" value="{{ maximum_distance|default(300000) }}" required>
+                                <input id="maximum_distance" name="maximum_distance" type="range" max="1500000" min="1000" step="10000" value="{{ maximum_distance|default(300000) }}" class="w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                                <span id="maximum_distance_value"></span>
                             </div>
                             <div>
-                                <label for="maximum_duration"
-                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max duration
+                                <label for="maximum_duration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max duration
                                     (seconds)</label>
-
-                                <input type="text" id="maximum_duration" name="maximum_duration"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="18000" value="{{ maximum_duration|default(18000) }}" required>
+                                <input id="maximum_duration" name="maximum_duration" type="range" max="259200" min="3600" step="3600" value="{{ maximum_duration|default(18000) }}" class="w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                                <span id="maximum_duration_value"></span>
                             </div>
                             <div>
-                                <label for="radius"
-                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Radius of
-                                    starting point</label>
-                                <input type="text" id="radius" name="radius"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="200" value="{{ radius|default(200) }}"  required>
+                                <label for="radius" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Radius (centroid)</label>
+                                <input id="radius" name="radius" type="range" max="300000" min="10000" step="10000" value="{{ radius|default(10000) }}" class="w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                                <span id="radius_value"></span>
                             </div>
                             <div class="flex content-center">
                                 <button class="inline-block mt-7 h-10 text-sm px-4 py-2 leading-none border rounded text-teal-500 border-teal-500 hover:border-transparent hover:text-teal-400 hover:bg-white">
@@ -104,6 +96,34 @@
     </div>
 
     <script>
+
+        const maxDistance = document.getElementById('maximum_distance');
+        const maxDistanceValue = document.getElementById('maximum_distance_value');
+
+        const onMaxDistanceUpdate = () => maxDistanceValue.innerText = Math.floor((maxDistance.value / 1000) * 100) / 100 + "km";
+
+        onMaxDistanceUpdate();
+
+        maxDistance.addEventListener("input", onMaxDistanceUpdate);
+
+        const maxDuration = document.getElementById('maximum_duration');
+        const maxDurationValue = document.getElementById('maximum_duration_value');
+
+        const onMaxDurationUpdate = () => maxDurationValue.innerText = Math.floor((maxDuration.value / 3600) * 100) / 100 + "h";
+
+        onMaxDurationUpdate();
+
+        maxDuration.addEventListener("input", onMaxDurationUpdate);
+
+        const radius = document.getElementById('radius');
+        const radiusValue = document.getElementById('radius_value');
+
+        const onRadiusUpdate = () => radiusValue.innerText = Math.floor((radius.value / 1000) * 100) / 100 + "km";
+
+        onRadiusUpdate();
+
+        radius.addEventListener("input", onRadiusUpdate);
+
         mapboxgl.accessToken = "pk.eyJ1Ijoia2N6ZXJlY3pvbiIsImEiOiJja29zdmZpM3YwNWhqMndvYWphemc0MDBoIn0.i558tTzbzGDUtvye0cYfcw";
         const map = new mapboxgl.Map({
             container: 'map',
