@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Letroute - narzędzie do planowania tras{% endblock %}
+
+{% block body %}
+    <!-- Left Side -->
+    <div class="w-1/2 bg-white p-6">
+        <!-- Content for the left side -->
+            <div class="flex flex-row w-full max-w-full gap-2 w-full mb-2">
+                <div class="w-full rounded text-left bg-gray-100 p-3 flex justify-between">
+                    <div class="w-1/2 flex-auto ">Samochody</div>
+                    <div class="flex-auto">
+                        <a href="{{ path('app_car_create') }}" class="w-100 text-center inline-block h-5 text-sm px-4 py-2 leading-none border rounded text-teal-500 border-teal-500 hover:border-transparent hover:text-teal-400 hover:bg-white">
+                            + UTWÓRZ SAMOCHÓD
+                        </a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Right Side -->
+    <div class="w-1/2 bg-white">
+        <!-- Content for the right side -->
+    </div>
+
+    <script>
+
+    </script>
+{% endblock %}
