@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Car;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,13 +35,27 @@ class CarController extends AbstractController
 
 
         $form = $this->createFormBuilder($car)
-            ->add('name', TextType::class)
-            ->add('maxLoadWeight', IntegerType::class)
-            ->add('save', SubmitType::class, ['label' => 'Create Task'])
+            ->add('name', TextType::class, [
+                'label' => "Nazwa robocza pojazdu"
+            ])
+            ->add('maxLoadWeight', IntegerType::class, [
+                'label' => "Maksymalna ładowność pojazdu (kg)"
+            ])
+            ->add(
+                'registrationNumber',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => "Numer rejestracyjny pojazdu"
+                ]
+            )
+            ->add('averageSpeed', TextType::class, ['required' => false, 'label' => "Średnia prędkośc pojazdu (km/h)"])
+            ->add('averageFuelConsumption', TextType::class, ['required' => false, 'label' => "Średnie spalanie pojazdu (L/100km)"])
+            ->add('save', SubmitType::class, ['label' => 'Utwórz samochód'])
             ->getForm();
 
         return $this->render('car/create.html.twig', [
-            'controller_name' => 'CarController',
+            'form' => $form
         ]);
     }
 }

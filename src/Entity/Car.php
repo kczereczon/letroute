@@ -22,9 +22,6 @@ class Car
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $registrationNumber = null;
 
-    #[ORM\Column]
-    private ?int $avarageFuelConsumption = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $averageSpeed = null;
 
@@ -33,6 +30,9 @@ class Car
 
     #[ORM\ManyToOne]
     private ?Localization $endLocalization = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $averageFuelConsumption = null;
 
     public function getId(): ?int
     {
@@ -75,18 +75,6 @@ class Car
         return $this;
     }
 
-    public function getAvarageFuelConsumption(): ?int
-    {
-        return $this->avarageFuelConsumption;
-    }
-
-    public function setAvarageFuelConsumption(int $avarageFuelConsumption): self
-    {
-        $this->avarageFuelConsumption = $avarageFuelConsumption;
-
-        return $this;
-    }
-
     public function getAverageSpeed(): ?int
     {
         return $this->averageSpeed;
@@ -119,6 +107,18 @@ class Car
     public function setEndLocalization(?Localization $endLocalization): self
     {
         $this->endLocalization = $endLocalization;
+
+        return $this;
+    }
+
+    public function getAverageFuelConsumption(): ?float
+    {
+        return $this->averageFuelConsumption;
+    }
+
+    public function setAverageFuelConsumption(?float $averageFuelConsumption): self
+    {
+        $this->averageFuelConsumption = $averageFuelConsumption;
 
         return $this;
     }
