@@ -39,18 +39,31 @@ class CarController extends AbstractController
                 'label' => "Nazwa robocza pojazdu"
             ])
             ->add('maxLoadWeight', IntegerType::class, [
-                'label' => "Maksymalna ładowność pojazdu (kg)"
+                'label' => "Maksymalna ładowność pojazdu (kg)",
+                'help' => "Ta wartość jest wykorzystywana podczas tworzenia tras."
             ])
             ->add(
                 'registrationNumber',
                 TextType::class,
                 [
                     'required' => false,
-                    'label' => "Numer rejestracyjny pojazdu"
+                    'label' => "Numer rejestracyjny pojazdu",
                 ]
             )
-            ->add('averageSpeed', TextType::class, ['required' => false, 'label' => "Średnia prędkośc pojazdu (km/h)"])
-            ->add('averageFuelConsumption', TextType::class, ['required' => false, 'label' => "Średnie spalanie pojazdu (L/100km)"])
+            ->add('averageSpeed', TextType::class, [
+                'required' => false,
+                'label' => "Średnia prędkośc pojazdu (km/h)",
+                'help' => "Ta wartość pomaga podczas tworzenia tras, jeśli puste używana wartość to 60 km/h."
+            ])
+            ->add(
+                'averageFuelConsumption',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => "Średnie spalanie pojazdu (L/100km)",
+                    'help' => "Ta wartość pomaga w wyliczaniu statystyk, jeśli puste używana wartość to 10L/100km."
+                ]
+            )
             ->add('save', SubmitType::class, ['label' => 'Utwórz samochód'])
             ->getForm();
 

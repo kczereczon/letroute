@@ -10,3 +10,8 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+.required:after {
+    content:" *";
+    color: red;
+}

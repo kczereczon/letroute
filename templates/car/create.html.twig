@@ -8,11 +8,13 @@
         <!-- Content for the left side -->
         <div class="flex flex-row w-full max-w-full gap-2 w-full mb-2">
             <div class="w-full rounded text-left bg-gray-100 p-3 flex justify-between">
-                <div class="w-1/2 flex-auto ">Nowy samochód</div>
+                <div class="w-1/2 flex-auto text-xl">Nowy samochód</div>
             </div>
         </div>
-        {% form_theme form 'tailwind_2_layout.html.twig' %}
+        <div class="bg-gray-100 rounded">
+        {% form_theme form 'form_template.html.twig' %}
         {{ form(form) }}
+        </div>
     </div>
 
     <!-- Right Side -->
