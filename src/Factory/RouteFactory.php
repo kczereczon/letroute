@@ -27,7 +27,7 @@ class RouteFactory implements RouteFactoryInterface
         $route->setColor($color);
         $route->setName("R-" . sprintf("%'.04d\n", $number));
         $route->setSet($set);
-        $route->setDuration($this->durationCalculator->calculateDuration($routePoints, $startPoint, $endPoint));
+        $route->setDuration($this->durationCalculator->calculateDuration($routePoints, $startPoint, $endPoint, 60000));
         $route->setDistance($this->distanceCalculator->calculateDistance($routePoints, $startPoint, $endPoint));
 
         /** @var Point $point */

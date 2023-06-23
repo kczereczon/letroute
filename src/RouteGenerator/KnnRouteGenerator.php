@@ -39,18 +39,18 @@ class KnnRouteGenerator implements RouteGeneratorInterface
      * @throws \Exception
      */
     public function generate(
-        \App\Entity\Set $set,
+        Set $set,
         Collection $cars,
         float $maximumDuration,
         float $maximumDistance,
         float $radius,
         Coordinates $startCentroid
-    ): \Doctrine\Common\Collections\Collection {
+    ): Collection {
         $points = $this->pointRepository->getPointsWithoutRoute($set);
 
         $triesCount = 0;
 
-        $routes = new \Doctrine\Common\Collections\ArrayCollection();
+        $routes = new ArrayCollection();
 
         $counter = 0;
 
@@ -72,19 +72,22 @@ class KnnRouteGenerator implements RouteGeneratorInterface
                 }
 
                 if ($this->distanceCalculator->calculateDistance(
-                        $routePoints,
-                        $startCentroid,
-                        $startCentroid
-                    ) > $maximumDistance) {
+                    $routePoints,
+                    $startCentroid,
+                    $startCentroid
+                ) > $maximumDistance
+                ) {
                     $routePoints->removeElement($routePoints->last());
                     break;
                 }
 
                 if ($this->durationCalculator->calculateDuration(
-                        $routePoints,
-                        $startCentroid,
-                        $startCentroid
-                    ) > $maximumDuration) {
+                    $routePoints,
+                    $startCentroid,
+                    $startCentroid,
+                    60000
+                ) > $maximumDuration
+                ) {
                     $routePoints->removeElement($routePoints->last());
                     break;
                 }
@@ -130,5 +133,4 @@ class KnnRouteGenerator implements RouteGeneratorInterface
 
         return new ArrayCollection(iterator_to_array($iterator));
     }
-
 }

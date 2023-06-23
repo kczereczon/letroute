@@ -7,17 +7,20 @@ use App\Interfaces\Coordinates;
 
 class DefaultDurationCalculator implements DurationCalculatorInterface
 {
-    const AVG_METERS_PER_HOUR = 60000;
 
-    public function __construct(private DistanceCalculatorInterface $distanceCalculator)
+    public function __construct(private readonly DistanceCalculatorInterface $distanceCalculator)
     {
     }
 
-    public function calculateDuration(\Doctrine\Common\Collections\Collection $points, Coordinates $startPoint, Coordinates $endPoint): int
-    {
-        $metersPerSecond = self::AVG_METERS_PER_HOUR / 3600;
+    public function calculateDuration(
+        \Doctrine\Common\Collections\Collection $points,
+        Coordinates $startPoint,
+        Coordinates $endPoint,
+        int $averageKilometersPerHour
+    ): int {
+        $metersPerHour = $averageKilometersPerHour * 1000;
 
         $distance = $this->distanceCalculator->calculateDistance($points, $startPoint, $endPoint);
-        return (int)($distance / $metersPerSecond);
+        return (int) ($distance / $metersPerHour);
     }
 }

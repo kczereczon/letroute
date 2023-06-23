@@ -7,8 +7,11 @@ use App\Interfaces\Coordinates;
 class DefaultDistanceCalculator implements DistanceCalculatorInterface
 {
 
-    public function calculateDistance(\Doctrine\Common\Collections\Collection $points, Coordinates $startPoint, Coordinates $endPoint): int
-    {
+    public function calculateDistance(
+        \Doctrine\Common\Collections\Collection $points,
+        Coordinates $startPoint,
+        Coordinates $endPoint
+    ): int {
 
         $distance = 0;
 
@@ -16,7 +19,7 @@ class DefaultDistanceCalculator implements DistanceCalculatorInterface
 
         for ($i = 1; $i < $points->count(); $i++) {
             $pointA = $points->get($i);
-            $pointB = $points->get($i-1);
+            $pointB = $points->get($i - 1);
 
             $distance += $this->calculateDistanceBetweenCords($pointA, $pointB);
         }
@@ -26,7 +29,7 @@ class DefaultDistanceCalculator implements DistanceCalculatorInterface
         return $distance;
     }
 
-    private function calculateDistanceBetweenCords(\App\Interfaces\Coordinates $coord1, \App\Interfaces\Coordinates $coord2): int
+    private function calculateDistanceBetweenCords(Coordinates $coord1, Coordinates $coord2): int
     {
         $earthRadius = 6371000; // Earth's radius in meters
 
@@ -44,6 +47,6 @@ class DefaultDistanceCalculator implements DistanceCalculatorInterface
 
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
-        return (int)($earthRadius * $c);
+        return (int) ($earthRadius * $c);
     }
 }
