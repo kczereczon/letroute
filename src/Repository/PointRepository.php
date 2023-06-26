@@ -43,55 +43,6 @@ class PointRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findBiggestLon(Set $set): Point
-    {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.lon', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findSmallestLon(Set $set): Point
-    {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.lon', 'ASC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findBiggestLat(Set $set): Point
-    {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.lat', 'ASC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findSmallestLat(Set $set): Point
-    {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.lat', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
     public function getPointsWithoutRoute(Set $set): Collection {
         return new ArrayCollection($this->createQueryBuilder('p')
             ->orderBy('p.lat', 'ASC')
@@ -101,29 +52,4 @@ class PointRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult());
     }
-
-//    /**
-//     * @return Point[] Returns an array of Point objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Point
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

@@ -71,6 +71,7 @@ class Localization
         return $this->type;
     }
 
+    //START/END
     public function setType(string $type): self
     {
         $this->type = $type;
