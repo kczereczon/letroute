@@ -29,7 +29,7 @@ class DefaultDistanceCalculator implements DistanceCalculatorInterface
         return $distance;
     }
 
-    private function calculateDistanceBetweenCords(Coordinates $coord1, Coordinates $coord2): int
+    protected function calculateDistanceBetweenCords(Coordinates $coord1, Coordinates $coord2): int
     {
         $earthRadius = 6371000; // Earth's radius in meters
 
