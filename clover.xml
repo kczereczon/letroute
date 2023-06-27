@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1687891844">
-  <project timestamp="1687891844">
+<coverage generated="1687892377">
+  <project timestamp="1687892377">
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Controller/CarController.php">
       <class name="App\Controller\CarController" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="0" elements="45" coveredelements="0"/>
@@ -408,15 +408,15 @@
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Factory/FileParserFactory.php">
       <class name="App\Factory\FileParserFactory" namespace="global">
-        <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="6" coveredelements="0"/>
+        <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
       </class>
-      <line num="12" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="14" type="stmt" count="0"/>
-      <line num="17" type="method" name="create" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="18" type="stmt" count="0"/>
-      <line num="19" type="stmt" count="0"/>
-      <line num="20" type="stmt" count="0"/>
-      <metrics loc="22" ncloc="22" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="6" coveredelements="0"/>
+      <line num="12" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="14" type="stmt" count="1"/>
+      <line num="17" type="method" name="create" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="18" type="stmt" count="1"/>
+      <line num="19" type="stmt" count="1"/>
+      <line num="20" type="stmt" count="1"/>
+      <metrics loc="22" ncloc="22" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Factory/RouteFactory.php">
       <class name="App\Factory\RouteFactory" namespace="global">
@@ -760,6 +760,6 @@
       <line num="14" type="stmt" count="0"/>
       <metrics loc="16" ncloc="16" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
     </file>
-    <metrics files="38" loc="1880" ncloc="1737" classes="25" methods="127" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="440" coveredstatements="29" elements="567" coveredelements="34"/>
+    <metrics files="38" loc="1880" ncloc="1737" classes="25" methods="127" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="440" coveredstatements="33" elements="567" coveredelements="40"/>
   </project>
 </coverage>
