@@ -18,6 +18,11 @@ class DefaultDurationCalculator implements DurationCalculatorInterface
         Coordinates $endPoint,
         int $averageKilometersPerHour
     ): int {
+
+        if($averageKilometersPerHour < 1) {
+            return 0;
+        }
+
         $metersPerHour = $averageKilometersPerHour * 1000;
 
         $distance = $this->distanceCalculator->calculateDistance($points, $startPoint, $endPoint);

@@ -22,16 +22,18 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
 
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <report>
+            <clover outputFile="clover.xml" />
+        </report>
     </coverage>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
 
     <!-- Run `composer require symfony/panther` before enabling this extension -->
     <!--

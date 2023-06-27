@@ -25,6 +25,7 @@ class CarRepositoryTest extends KernelTestCase
         $entityManager->createQuery('DELETE FROM App\Entity\Localization as l')->execute();
     }
 
+    /** @covers \App\Repository\CarRepository::save */
     public function testSave(): void
     {
         $kernel = self::bootKernel();

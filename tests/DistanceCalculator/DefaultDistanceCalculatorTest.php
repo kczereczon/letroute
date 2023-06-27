@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class DefaultDistanceCalculatorTest extends TestCase
 {
+    /** @covers \App\DistanceCalculator\DefaultDistanceCalculator::calculateDistance */
     public function testCalculateDistance(): void
     {
         $calculator = $this->createPartialMock(DefaultDistanceCalculator::class, []);
