@@ -7,11 +7,8 @@ use App\Parser\ParserInterface;
 
 class FileParserFactory
 {
-    private CsvParser $csvParser;
-
-    public function __construct(CsvParser $csvParser)
+    public function __construct(private CsvParser $csvParser)
     {
-        $this->csvParser = $csvParser;
     }
 
     public function create(string $extension): ParserInterface {
