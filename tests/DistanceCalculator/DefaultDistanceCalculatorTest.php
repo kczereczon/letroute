@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class DefaultDistanceCalculatorTest extends TestCase
 {
-    /** @covers \App\DistanceCalculator\DefaultDistanceCalculator::calculateDistance */
     public function testCalculateDistanceOnlyOnePoint(): void
     {
         $calculator = new DefaultDistanceCalculator();
@@ -26,7 +25,6 @@ class DefaultDistanceCalculatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @covers \App\DistanceCalculator\DefaultDistanceCalculator::calculateDistance */
     public function testCalculateDistanceMorePoints(): void
     {
         $calculator = new DefaultDistanceCalculator();
@@ -44,7 +42,6 @@ class DefaultDistanceCalculatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @covers \App\DistanceCalculator\DefaultDistanceCalculator::calculateDistanceBetweenCords */
     public function testCalculateDistanceBetweenPoints(): void
     {
         $calculator = new DefaultDistanceCalculator();

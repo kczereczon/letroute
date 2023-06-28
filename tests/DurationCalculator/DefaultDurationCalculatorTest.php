@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class DefaultDurationCalculatorTest extends TestCase
 {
 
-    /** @covers \App\DurationCalculator\DefaultDurationCalculator::calculateDuration */
     public function testCalculateDuration(): void
     {
         $distanceCalculator = $this->createMock(DistanceCalculatorInterface::class);
@@ -30,7 +29,6 @@ class DefaultDurationCalculatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @covers \App\DurationCalculator\DefaultDurationCalculator::calculateDuration */
     public function testCalculateDurationWithZeroDistance(): void
     {
         $distanceCalculator = $this->createMock(DistanceCalculatorInterface::class);
@@ -49,7 +47,6 @@ class DefaultDurationCalculatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @covers \App\DurationCalculator\DefaultDurationCalculator::calculateDuration */
     public function testCalculateDurationWithZeroAverageKilometers(): void
     {
         $distanceCalculator = $this->createMock(DistanceCalculatorInterface::class);
@@ -68,7 +65,6 @@ class DefaultDurationCalculatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @covers \App\DurationCalculator\DefaultDurationCalculator::__construct */
     public function testConstructor(): void
     {
         $distanceCalculator = $this->createMock(DistanceCalculatorInterface::class);

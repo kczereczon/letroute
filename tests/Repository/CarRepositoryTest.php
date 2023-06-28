@@ -58,11 +58,6 @@ class CarRepositoryTest extends KernelTestCase
         $this->car->setEndLocalization($this->localization);
     }
 
-    /**
-     * @covers \App\Repository\CarRepository::save
-     * @covers \App\Repository\CarRepository::__construct
-     * @throws NotSupported
-     */
     public function testSave(): void
     {
         /** @var CarRepository $carRepository */
@@ -75,11 +70,6 @@ class CarRepositoryTest extends KernelTestCase
         $this->assertSame(1, $carCount);
     }
 
-    /**
-     * @covers \App\Repository\CarRepository::save
-     * @covers \App\Repository\CarRepository::remove
-     * @covers \App\Repository\CarRepository::__construct
-     */
     public function testRemoveCar(): void
     {
         /** @var CarRepository $carRepository */
