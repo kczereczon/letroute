@@ -18,6 +18,11 @@ use Symfony\Component\Console\Tester\CommandTester;
 class CarRepositoryTest extends KernelTestCase
 {
 
+    private EntityManagerInterface $entityManager;
+    private CarRepository $carRepository;
+    private Localization $localization;
+    private Car $car;
+
     protected function tearDown(): void
     {
         parent::tearDown();
