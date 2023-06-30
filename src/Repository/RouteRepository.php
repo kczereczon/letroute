@@ -38,11 +38,4 @@ class RouteRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-    public function getRouteCount(): int
-    {
-        $entityManager = $this->getEntityManager();
-        return $entityManager->createQueryBuilder('r')
-            ->select('r')->getMaxResults();
-    }
 }

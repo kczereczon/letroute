@@ -19,7 +19,6 @@ class CarRepositoryTest extends KernelTestCase
 {
 
     private EntityManagerInterface $entityManager;
-    private CarRepository $carRepository;
     private Localization $localization;
     private Car $car;
 
