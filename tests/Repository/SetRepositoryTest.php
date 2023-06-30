@@ -9,9 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SetRepositoryTest extends KernelTestCase
 {
-    protected function setUp(): void
+    protected function tearDown(): void
     {
-        parent::setUp();
+        parent::tearDown();
 
         $kernel = self::bootKernel();
         $entityManager = $kernel->getContainer()->get('doctrine.orm.default_entity_manager');

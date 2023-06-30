@@ -26,6 +26,7 @@ class PointRepositoryTest extends KernelTestCase
         $kernel = self::bootKernel();
         $entityManager = $kernel->getContainer()->get('doctrine.orm.default_entity_manager');
         $entityManager->createQuery('DELETE FROM App\Entity\Point as p')->execute();
+        $entityManager->createQuery('DELETE FROM App\Entity\Route as r')->execute();
         $entityManager->createQuery('DELETE FROM App\Entity\Set as s')->execute();
     }
 
