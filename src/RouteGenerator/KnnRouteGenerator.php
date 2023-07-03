@@ -25,7 +25,8 @@ class KnnRouteGenerator implements RouteGeneratorInterface
         private DurationCalculatorInterface $durationCalculator,
         private DistanceCalculatorInterface $distanceCalculator,
         private RouteFactory $routeFactory,
-        private CentroidRandomizerInterface $centroidRandomizer
+        private CentroidRandomizerInterface $centroidRandomizer,
+        private \EuclideanDistanceSorter $euclideanDistanceSorter,
     ) {
     }
 
@@ -62,7 +63,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
             $routePoints = new ArrayCollection();
 
             while (true) {
-                $points = $this->sortPointsByDistance($points, $car->getCentroid());
+                $points = $this->euclideanDistanceSorter->sort($points, $car->getCentroid());
                 $point = $points->first();
                 $routePoints->add($point);
 
@@ -106,31 +107,5 @@ class KnnRouteGenerator implements RouteGeneratorInterface
         }
 
         return $routes;
-    }
-
-    public function getDistanceBetweenPoints(Coordinates $a, Coordinates $b): float
-    {
-        $xPow = (($b->getX() - $a->getX()) ** 2);
-        $yPow = (($b->getY() - $a->getY()) ** 2);
-        return sqrt($xPow + $yPow);
-    }
-
-    /**
-     * @param ArrayCollection<int, Point> $points
-     * @param Coordinates $coordinates
-     * @return ArrayCollection<int, Point>
-     * @throws \Exception
-     */
-    public function sortPointsByDistance(Collection $points, Coordinates $coordinates): ArrayCollection
-    {
-        $iterator = $points->getIterator();
-        $iterator->uasort(function (Point $a, Point $b) use ($coordinates) {
-            $aDistance = $this->getDistanceBetweenPoints($coordinates, $a);
-            $bDistance = $this->getDistanceBetweenPoints($coordinates, $b);
-
-            return $aDistance <=> $bDistance;
-        });
-
-        return new ArrayCollection(iterator_to_array($iterator));
     }
 }
