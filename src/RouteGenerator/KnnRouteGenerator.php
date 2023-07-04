@@ -22,12 +22,12 @@ use Doctrine\ORM\NonUniqueResultException;
 class KnnRouteGenerator implements RouteGeneratorInterface
 {
     public function __construct(
-        private PointRepository $pointRepository,
-        private DurationCalculatorInterface $durationCalculator,
-        private DistanceCalculatorInterface $distanceCalculator,
-        private RouteFactory $routeFactory,
-        private CentroidRandomizerInterface $centroidRandomizer,
-        private EuclideanDistanceSorter $euclideanDistanceSorter,
+        private readonly PointRepository $pointRepository,
+        private readonly DurationCalculatorInterface $durationCalculator,
+        private readonly DistanceCalculatorInterface $distanceCalculator,
+        private readonly RouteFactory $routeFactory,
+        private readonly CentroidRandomizerInterface $centroidRandomizer,
+        private readonly EuclideanDistanceSorter $euclideanDistanceSorter,
     ) {
     }
 
