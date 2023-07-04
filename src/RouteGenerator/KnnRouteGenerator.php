@@ -13,6 +13,7 @@ use App\Interfaces\Point;
 use App\Models\Car;
 use App\Models\Centroid;
 use App\Repository\PointRepository;
+use App\Sorter\EuclideanDistanceSorter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,7 @@ class KnnRouteGenerator implements RouteGeneratorInterface
         private DistanceCalculatorInterface $distanceCalculator,
         private RouteFactory $routeFactory,
         private CentroidRandomizerInterface $centroidRandomizer,
-        private \EuclideanDistanceSorter $euclideanDistanceSorter,
+        private EuclideanDistanceSorter $euclideanDistanceSorter,
     ) {
     }
 

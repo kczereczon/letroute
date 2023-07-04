@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Sorter;
+
 use App\Interfaces\Coordinates;
 use App\Interfaces\Point;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,18 +18,19 @@ class EuclideanDistanceSorter implements SorterInterface
         \Doctrine\Common\Collections\Collection $collection,
         \App\Interfaces\Coordinates $coordinates
     ): \Doctrine\Common\Collections\Collection {
-        $iterator = $collection->getIterator();
-        $iterator->uasort(function (Point $a, Point $b) use ($coordinates) {
+        $array = $collection->toArray();
+
+        usort($array, function (Point $a, Point $b) use ($coordinates) {
             $aDistance = $this->getDistanceBetweenPoints($coordinates, $a);
             $bDistance = $this->getDistanceBetweenPoints($coordinates, $b);
 
-            return $aDistance <=> $bDistance;
+            return $aDistance > $bDistance;
         });
 
-        return new ArrayCollection(iterator_to_array($iterator));
+        return new ArrayCollection($array);
     }
 
-    public function getDistanceBetweenPoints(Coordinates $a, Coordinates $b): float
+    private function getDistanceBetweenPoints(Coordinates $a, Coordinates $b): float
     {
         $xPow = (($b->getX() - $a->getX()) ** 2);
         $yPow = (($b->getY() - $a->getY()) ** 2);
