@@ -85,4 +85,58 @@ class KnnRouteGeneratorTest extends TestCase
             $this->createMock(\App\Interfaces\Coordinates::class)
         )->toArray());
     }
+    public function testLoopEndsWhenTriesExceededCanCarry()
+    {
+        $point = new Point();
+        $point->setX(51.912096);
+        $point->setY(19.344748);
+        $point->setWeight(300);
+
+        $car = new \App\Models\Car(
+            'test',
+            1000,
+            0,
+        );
+
+        $sorter = $this->createMock(\App\Sorter\EuclideanDistanceSorter::class);
+        $sorter
+            ->method('sort')
+            ->willReturn(new ArrayCollection([
+                $point
+            ]));
+
+        $pointRepository = $this->createMock(\App\Repository\PointRepository::class);
+        $pointRepository->expects($this->once())
+            ->method('getPointsWithoutRoute')
+            ->willReturn(new ArrayCollection([
+                $point
+            ]));
+
+        $distanceCalculator = $this->createMock(\App\DistanceCalculator\DistanceCalculatorInterface::class);
+        $distanceCalculator->expects($this->atLeastOnce())
+            ->method('calculateDistance')
+            ->willReturn(1000);
+
+        $durationCalculator = $this->createMock(\App\DurationCalculator\DurationCalculatorInterface::class);
+
+        $knnRouteGenerator = new \App\RouteGenerator\KnnRouteGenerator(
+            $pointRepository,
+            $durationCalculator,
+            $distanceCalculator,
+            $this->createMock(\App\Factory\RouteFactory::class),
+            $this->createMock(\App\Domain\CentroidRandomizerInterface::class),
+            $sorter
+        );
+
+        $this->assertEquals([], $knnRouteGenerator->generate(
+            $this->createMock(\App\Entity\Set::class),
+            new \Doctrine\Common\Collections\ArrayCollection([
+                $car
+            ]),
+            0,
+            0,
+            0,
+            $this->createMock(\App\Interfaces\Coordinates::class)
+        )->toArray());
+    }
 }
