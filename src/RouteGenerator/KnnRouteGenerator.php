@@ -64,11 +64,13 @@ class KnnRouteGenerator implements RouteGeneratorInterface
             $routePoints = new ArrayCollection();
 
             while (true) {
+                /** @var Collection<\App\Entity\Point> $points */
                 $points = $this->euclideanDistanceSorter->sort($points, $car->getCentroid());
+                /** @var Point $point */
                 $point = $points->first();
                 $routePoints->add($point);
 
-                if (!$car->canCarry($points->first()->getWeight())) {
+                if (!$car->canCarry($point->getWeight())) {
                     $routePoints->removeElement($routePoints->last());
                     break;
                 }
