@@ -24,7 +24,7 @@ class EuclideanDistanceSorter implements SorterInterface
             $aDistance = $this->getDistanceBetweenPoints($coordinates, $a);
             $bDistance = $this->getDistanceBetweenPoints($coordinates, $b);
 
-            return $aDistance > $bDistance;
+            return (int)($aDistance*100) - (int)($bDistance*100);
         });
 
         return new ArrayCollection($array);
