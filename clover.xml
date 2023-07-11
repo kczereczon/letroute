@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1689014953">
-  <project timestamp="1689014953">
+<coverage generated="1689047548">
+  <project timestamp="1689047548">
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Controller/CarController.php">
       <class name="App\Controller\CarController" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="45" coveredelements="45"/>
@@ -267,26 +267,26 @@
       </class>
       <line num="36" type="method" name="getId" visibility="public" complexity="1" crap="1" count="3"/>
       <line num="38" type="stmt" count="3"/>
-      <line num="41" type="method" name="getName" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="43" type="stmt" count="1"/>
-      <line num="46" type="method" name="setName" visibility="public" complexity="1" crap="1" count="6"/>
-      <line num="48" type="stmt" count="6"/>
-      <line num="50" type="stmt" count="6"/>
-      <line num="53" type="method" name="getLat" visibility="public" complexity="1" crap="1" count="3"/>
-      <line num="55" type="stmt" count="3"/>
-      <line num="58" type="method" name="setLat" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="60" type="stmt" count="11"/>
-      <line num="62" type="stmt" count="11"/>
-      <line num="65" type="method" name="getLon" visibility="public" complexity="1" crap="1" count="3"/>
-      <line num="67" type="stmt" count="3"/>
-      <line num="70" type="method" name="setLon" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="72" type="stmt" count="11"/>
-      <line num="74" type="stmt" count="11"/>
-      <line num="77" type="method" name="getWeight" visibility="public" complexity="1" crap="1" count="6"/>
-      <line num="79" type="stmt" count="6"/>
-      <line num="82" type="method" name="setWeight" visibility="public" complexity="1" crap="1" count="10"/>
-      <line num="84" type="stmt" count="10"/>
-      <line num="86" type="stmt" count="10"/>
+      <line num="41" type="method" name="getName" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="43" type="stmt" count="2"/>
+      <line num="46" type="method" name="setName" visibility="public" complexity="1" crap="1" count="7"/>
+      <line num="48" type="stmt" count="7"/>
+      <line num="50" type="stmt" count="7"/>
+      <line num="53" type="method" name="getLat" visibility="public" complexity="1" crap="1" count="4"/>
+      <line num="55" type="stmt" count="4"/>
+      <line num="58" type="method" name="setLat" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="60" type="stmt" count="12"/>
+      <line num="62" type="stmt" count="12"/>
+      <line num="65" type="method" name="getLon" visibility="public" complexity="1" crap="1" count="4"/>
+      <line num="67" type="stmt" count="4"/>
+      <line num="70" type="method" name="setLon" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="72" type="stmt" count="12"/>
+      <line num="74" type="stmt" count="12"/>
+      <line num="77" type="method" name="getWeight" visibility="public" complexity="1" crap="1" count="7"/>
+      <line num="79" type="stmt" count="7"/>
+      <line num="82" type="method" name="setWeight" visibility="public" complexity="1" crap="1" count="11"/>
+      <line num="84" type="stmt" count="11"/>
+      <line num="86" type="stmt" count="11"/>
       <line num="89" type="method" name="getSet" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="91" type="stmt" count="2"/>
       <line num="94" type="method" name="setSet" visibility="public" complexity="1" crap="1" count="3"/>
@@ -506,20 +506,28 @@
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Parser/CsvParser.php">
       <class name="App\Parser\CsvParser" namespace="global">
-        <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="8" coveredelements="0"/>
+        <metrics complexity="2" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="15" elements="16" coveredelements="16"/>
       </class>
-      <line num="7" type="method" name="parse" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="9" type="stmt" count="0"/>
-      <line num="10" type="stmt" count="0"/>
-      <line num="11" type="stmt" count="0"/>
-      <line num="12" type="stmt" count="0"/>
-      <line num="13" type="stmt" count="0"/>
-      <line num="14" type="stmt" count="0"/>
-      <line num="16" type="stmt" count="0"/>
-      <metrics loc="18" ncloc="18" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="8" coveredelements="0"/>
+      <line num="9" type="method" name="parse" visibility="public" complexity="2" crap="2" count="1"/>
+      <line num="11" type="stmt" count="1"/>
+      <line num="12" type="stmt" count="1"/>
+      <line num="13" type="stmt" count="1"/>
+      <line num="14" type="stmt" count="1"/>
+      <line num="15" type="stmt" count="1"/>
+      <line num="16" type="stmt" count="1"/>
+      <line num="18" type="stmt" count="1"/>
+      <line num="20" type="stmt" count="1"/>
+      <line num="21" type="stmt" count="1"/>
+      <line num="22" type="stmt" count="1"/>
+      <line num="23" type="stmt" count="1"/>
+      <line num="24" type="stmt" count="1"/>
+      <line num="25" type="stmt" count="1"/>
+      <line num="26" type="stmt" count="1"/>
+      <line num="29" type="stmt" count="1"/>
+      <metrics loc="31" ncloc="31" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="15" elements="16" coveredelements="16"/>
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Parser/ParserInterface.php">
-      <metrics loc="8" ncloc="8" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="11" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Randomizer/CircularCentroidRandomizer.php">
       <class name="App\Randomizer\CircularCentroidRandomizer" namespace="global">
@@ -767,6 +775,6 @@
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Sorter/SorterInterface.php">
       <metrics loc="11" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="40" loc="1902" ncloc="1759" classes="26" methods="126" coveredmethods="100" conditionals="0" coveredconditionals="0" statements="439" coveredstatements="317" elements="565" coveredelements="417"/>
+    <metrics files="40" loc="1918" ncloc="1774" classes="26" methods="126" coveredmethods="101" conditionals="0" coveredconditionals="0" statements="447" coveredstatements="332" elements="573" coveredelements="433"/>
   </project>
 </coverage>

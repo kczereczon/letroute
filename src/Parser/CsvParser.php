@@ -2,6 +2,8 @@
 
 namespace App\Parser;
 
+use App\Entity\Point;
+
 class CsvParser implements ParserInterface
 {
     public function parse(string $data): array
@@ -13,6 +15,17 @@ class CsvParser implements ParserInterface
         });
         array_shift($csv);
 
-        return $csv;
+        $points = [];
+
+        foreach ($csv as $point) {
+            $pointEntity = new Point();
+            $pointEntity->setName($point['name']);
+            $pointEntity->setLat($point['lat']);
+            $pointEntity->setLon($point['lon']);
+            $pointEntity->setWeight($point['weight']);
+            $points[] = $pointEntity;
+        }
+
+        return $points;
     }
 }

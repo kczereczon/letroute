@@ -2,7 +2,10 @@
 
 namespace App\Parser;
 
+use App\Entity\Point;
+
 interface ParserInterface
 {
-    public function parse(String $data): array;
+    /** @return Point[] */
+    public function parse(string $data): array;
 }

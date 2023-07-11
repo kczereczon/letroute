@@ -11,7 +11,7 @@
 |
 */
 
-// uses(Tests\TestCase::class)->in('Feature');
+ uses(\App\Tests\Core\FeatureTestCase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
