@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1689047548">
-  <project timestamp="1689047548">
+<coverage generated="1689186271">
+  <project timestamp="1689186271">
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Controller/CarController.php">
       <class name="App\Controller\CarController" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="45" coveredelements="45"/>

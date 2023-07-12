@@ -11,7 +11,7 @@
 |
 */
 
- uses(\App\Tests\Core\FeatureTestCase::class)->in('Feature');
+uses(\Symfony\Bundle\FrameworkBundle\Test\WebTestCase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
