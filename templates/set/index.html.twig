@@ -52,7 +52,7 @@
                 <div class="w-full rounded text-center bg-gray-100 p-3">Zbiory</div>
                 <div>
                     {% for set in sets %}
-                        <a href="{{ path('app_set', {'setId': set.id}) }}">
+                        <a class="set" href="{{ path('app_set', {'setId': set.id}) }}">
                             <div :class="setId == '{{ set.id }}' ? 'bg-teal-300' : ''"
                                  class="border-b-2 hover:bg-teal-100">{{ set.name }}</div>
                         </a>
