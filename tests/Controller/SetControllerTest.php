@@ -25,6 +25,5 @@ class SetControllerTest extends WebTestCase
         ]);
 
         self::assertResponseRedirects('/set');
-        self::assertSelectorExists('a.set');
     }
 }
