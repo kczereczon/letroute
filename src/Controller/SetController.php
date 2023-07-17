@@ -79,7 +79,7 @@ class SetController extends AbstractController
     {
         /** @var File $file */
         $file = $request->files->get('points');
-        $extension = $file->guessExtension();
+        $extension = $file->getClientOriginalExtension();
 
         $parser = $this->fileParserFactory->create($extension);
         $points = $parser->parse($file->getContent());
@@ -89,13 +89,8 @@ class SetController extends AbstractController
         $entityManager->persist($set);
 
         foreach ($points as $point) {
-            $pointEntity = new Point();
-            $pointEntity->setName($point['name']);
-            $pointEntity->setLat($point['lat']);
-            $pointEntity->setLon($point['lon']);
-            $pointEntity->setWeight($point['weight']);
-            $pointEntity->setSet($set);
-            $entityManager->persist($pointEntity);
+            $point->setSet($set);
+            $entityManager->persist($point);
         }
 
         $entityManager->flush();

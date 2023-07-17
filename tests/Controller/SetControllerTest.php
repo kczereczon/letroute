@@ -13,7 +13,7 @@ class SetControllerTest extends WebTestCase
             dirname(__DIR__) . '/TestFiles/testSet.csv',
             'testSet.csv',
             'text/csv',
-            null
+            null,
         );
 
         $client = static::createClient();
@@ -24,7 +24,6 @@ class SetControllerTest extends WebTestCase
             'points' => $uploadedFile
         ]);
 
-        self::assertResponseIsSuccessful();
         self::assertResponseRedirects('/set');
         self::assertSelectorExists('a.set');
     }
