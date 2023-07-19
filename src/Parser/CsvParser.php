@@ -46,11 +46,9 @@ class CsvParser implements ParserInterface
             $pointEntity->setName($point['name']);
             $pointEntity->setLat($point['lat']);
             $pointEntity->setLon($point['lon']);
-            $pointEntity->setWeight($point['weight']);
+            $pointEntity->setWeight((float)$point['weight']);
             $pointEntities[] = $pointEntity;
         }
-
-
 
         return $pointEntities;
     }
