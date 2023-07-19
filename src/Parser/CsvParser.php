@@ -11,6 +11,7 @@ class CsvParser implements ParserInterface
      */
     public function parse(string $data): array
     {
+        setlocale(LC_ALL, 'pl_PL');
         $explodedString = preg_split('/\R/', $data);
         $points = array_map('str_getcsv', $explodedString);
         array_walk($points, function(&$a) use ($points) {
