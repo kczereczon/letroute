@@ -11,8 +11,6 @@ class CsvParser implements ParserInterface
      */
     public function parse(string $data): array
     {
-
-        mb_convert_encoding($data, "UTF-8");
         $explodedString = preg_split('/\R/', $data);
         $points = array_map('str_getcsv', $explodedString);
         array_walk($points, function(&$a) use ($points) {
