@@ -24,6 +24,6 @@ class SetControllerTest extends WebTestCase
             'points' => $uploadedFile
         ]);
 
-        self::assertResponseRedirects('/set');
+        self::assertResponseRedirects('/');
     }
 }

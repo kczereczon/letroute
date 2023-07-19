@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1689622013">
-  <project timestamp="1689622013">
+<coverage generated="1689768121">
+  <project timestamp="1689768121">
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Controller/CarController.php">
       <class name="App\Controller\CarController" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="45" coveredelements="45"/>
@@ -501,33 +501,37 @@
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Parser/CsvParser.php">
       <class name="App\Parser\CsvParser" namespace="global">
-        <metrics complexity="5" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="18" elements="21" coveredelements="18"/>
+        <metrics complexity="7" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="22" elements="25" coveredelements="22"/>
       </class>
-      <line num="12" type="method" name="parse" visibility="public" complexity="5" crap="5.03" count="2"/>
-      <line num="14" type="stmt" count="2"/>
+      <line num="13" type="method" name="parse" visibility="public" complexity="7" crap="7.03" count="2"/>
       <line num="15" type="stmt" count="2"/>
-      <line num="16" type="stmt" count="2"/>
       <line num="17" type="stmt" count="2"/>
-      <line num="18" type="stmt" count="2"/>
       <line num="19" type="stmt" count="2"/>
-      <line num="21" type="stmt" count="2"/>
-      <line num="23" type="stmt" count="2"/>
-      <line num="24" type="stmt" count="0"/>
+      <line num="20" type="stmt" count="2"/>
+      <line num="21" type="stmt" count="0"/>
+      <line num="25" type="stmt" count="2"/>
       <line num="27" type="stmt" count="2"/>
       <line num="28" type="stmt" count="2"/>
-      <line num="29" type="stmt" count="0"/>
+      <line num="29" type="stmt" count="2"/>
+      <line num="30" type="stmt" count="2"/>
+      <line num="31" type="stmt" count="2"/>
       <line num="33" type="stmt" count="2"/>
-      <line num="34" type="stmt" count="2"/>
-      <line num="35" type="stmt" count="2"/>
       <line num="36" type="stmt" count="2"/>
-      <line num="37" type="stmt" count="2"/>
       <line num="38" type="stmt" count="2"/>
-      <line num="39" type="stmt" count="2"/>
+      <line num="40" type="stmt" count="2"/>
+      <line num="41" type="stmt" count="0"/>
       <line num="44" type="stmt" count="2"/>
-      <metrics loc="46" ncloc="43" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="18" elements="21" coveredelements="18"/>
+      <line num="45" type="stmt" count="2"/>
+      <line num="46" type="stmt" count="2"/>
+      <line num="47" type="stmt" count="2"/>
+      <line num="48" type="stmt" count="2"/>
+      <line num="49" type="stmt" count="2"/>
+      <line num="50" type="stmt" count="2"/>
+      <line num="55" type="stmt" count="2"/>
+      <metrics loc="57" ncloc="54" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="22" elements="25" coveredelements="22"/>
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Parser/ParserInterface.php">
-      <metrics loc="11" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="12" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Randomizer/CircularCentroidRandomizer.php">
       <class name="App\Randomizer\CircularCentroidRandomizer" namespace="global">
@@ -775,6 +779,6 @@
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Sorter/SorterInterface.php">
       <metrics loc="11" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="40" loc="1928" ncloc="1781" classes="26" methods="126" coveredmethods="102" conditionals="0" coveredconditionals="0" statements="447" coveredstatements="348" elements="573" coveredelements="450"/>
+    <metrics files="40" loc="1940" ncloc="1793" classes="26" methods="126" coveredmethods="102" conditionals="0" coveredconditionals="0" statements="451" coveredstatements="352" elements="577" coveredelements="454"/>
   </project>
 </coverage>

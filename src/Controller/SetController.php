@@ -82,7 +82,7 @@ class SetController extends AbstractController
         $extension = $file->getClientOriginalExtension();
 
         $parser = $this->fileParserFactory->create($extension);
-        $points = $parser->parse(utf8_encode($file->getContent()));
+        $points = $parser->parse($file);
 
         $set = new Set();
         $set->setName("set - " . date('Y-m-d h:i:s'));

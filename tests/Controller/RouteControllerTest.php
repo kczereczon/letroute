@@ -62,7 +62,7 @@ class RouteControllerTest extends WebTestCase
         $routes = $set->getRoutes();
 
         self::assertResponseRedirects(
-            "/set?setId=" . $set->getId() . "&maximum_distance=100&maximum_duration=100&radius=100"
+            "/?setId=" . $set->getId() . "&maximum_distance=100&maximum_duration=100&radius=100"
         );
 
         self::assertCount(1, $routes);
