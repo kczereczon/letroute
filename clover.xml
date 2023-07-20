@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1689768175">
-  <project timestamp="1689768175">
+<coverage generated="1689768235">
+  <project timestamp="1689768235">
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Controller/CarController.php">
       <class name="App\Controller\CarController" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="45" coveredelements="45"/>
@@ -527,8 +527,8 @@
       <line num="48" type="stmt" count="2"/>
       <line num="49" type="stmt" count="2"/>
       <line num="50" type="stmt" count="2"/>
-      <line num="55" type="stmt" count="2"/>
-      <metrics loc="57" ncloc="54" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="22" elements="25" coveredelements="22"/>
+      <line num="53" type="stmt" count="2"/>
+      <metrics loc="55" ncloc="52" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="22" elements="25" coveredelements="22"/>
     </file>
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Parser/ParserInterface.php">
       <metrics loc="12" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
@@ -779,6 +779,6 @@
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Sorter/SorterInterface.php">
       <metrics loc="11" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="40" loc="1940" ncloc="1793" classes="26" methods="126" coveredmethods="102" conditionals="0" coveredconditionals="0" statements="451" coveredstatements="352" elements="577" coveredelements="454"/>
+    <metrics files="40" loc="1938" ncloc="1791" classes="26" methods="126" coveredmethods="102" conditionals="0" coveredconditionals="0" statements="451" coveredstatements="352" elements="577" coveredelements="454"/>
   </project>
 </coverage>
