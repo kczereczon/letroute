@@ -10,6 +10,3 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
-
-import './scripts/main.js';
-import './scripts/wow.min.js';
