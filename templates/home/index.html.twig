@@ -3,17 +3,19 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <div class="container px-4">
-        <div class="flex p-16">
-            <div class="flex-1">
-                <h1 class="font-extrabold text-xl">Wiemy jak wygenerować szybko trasy</h1>
-                <h2>Aplikacja generująca trasy</h2>
+    <div class="flex flex-col xl:flex-row p-16 bg-teal-50 w-full">
+        <div class="flex-1 p-5">
+            <h1 class="font-extrabold text-7xl auto">Wiemy jak wygenerować szybko trasy</h1>
+            <h2 class="mt-5 text-gray-500">Skontaktuj się z nami, żeby dowiedzieć się więcej i zapisać się do newslettera.</h2>
+            <div class="flex mt-10">
+                <input type="text" class="w-1/2 h-10 rounded-xl border flex-1 p-3" placeholder="jan.kowalski@gmail.com">
+                <button class="bg-teal-500 text-white rounded-xl px-5 ml-5">Zapisz się</button>
             </div>
-            <div class="flex-1">
-                <h1>Home</h1>
-                <p>Home page</p>
-            </div>
-
         </div>
+        <div class="p-5 flex-1 mt-10 xl:mt-0">
+            <div class="bg-white p-2 rounded-lg border">
+                <img src="{{ asset('images/example.jpg') }}" alt="example" class="w-full rounded-lg border"></div>
+        </div>
+
     </div>
 {% endblock %}
