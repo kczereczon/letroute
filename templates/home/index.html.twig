@@ -3,19 +3,28 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <div class="flex flex-col xl:flex-row p-16 bg-teal-50 w-full">
+    <div class="flex flex-col xl:flex-row md:p-16 px-5 py-2 bg-teal-50 w-full">
         <div class="flex-1 p-5">
-            <h1 class="font-extrabold text-7xl auto">Wiemy jak wygenerować szybko trasy</h1>
+            <h1 class="font-extrabold md:text-7xl  text-7xl auto">Wiemy jak wygenerować szybko trasy</h1>
             <h2 class="mt-5 text-gray-500">Skontaktuj się z nami, żeby dowiedzieć się więcej i zapisać się do newslettera.</h2>
             <div class="flex mt-10">
                 <input type="text" class="w-1/2 h-10 rounded-xl border flex-1 p-3" placeholder="jan.kowalski@gmail.com">
                 <button class="bg-teal-500 text-white rounded-xl px-5 ml-5">Zapisz się</button>
             </div>
         </div>
-        <div class="p-5 flex-1 mt-10 xl:mt-0">
+        <div class="p-5 flex-1 mt-3 xl:mt-0">
             <div class="bg-white p-2 rounded-lg border">
                 <img src="{{ asset('images/example.jpg') }}" alt="example" class="w-full rounded-lg border"></div>
         </div>
-
     </div>
+
+    <div class="p-10 flex flex-row">
+        <div class="flex-1">
+            <div class="w-56 h-56 bg-teal-500 m-auto rounded-full flex justify-content-center align-content-center">
+                <img src="{{ asset('images/hourglass.svg') }}" class="w-32 h-32 text-white m-auto"/>
+            </div>
+            <h2 class="font-bold text-xl w-72 m-auto text-center mt-5">Wygenerujemy możliwe trasy w 5 sekund</h2>
+        </div>
+    </div>
+
 {% endblock %}
