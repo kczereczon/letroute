@@ -28,6 +28,9 @@ class Set
     #[ORM\OrderBy(["distance" => "DESC"])]
     private Collection $routes;
 
+    #[ORM\ManyToOne(inversedBy: 'sets')]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->points = new ArrayCollection();
@@ -107,6 +110,18 @@ class Set
                 $route->setSet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
