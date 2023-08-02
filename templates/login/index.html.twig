@@ -1,0 +1,30 @@
+{% extends 'home/base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+    <div class="bg-teal-50 h-[40rem]">
+        <form action="">
+            <div class="bg-white border w-1/2 rounded-xl mx-auto my-20 flex-col">
+                <div class="header flex-1 p-4 rounded-t-xl border-bottom bg-teal-600">
+                    <h1 class="text-2xl font-bold text-white">Logowanie</h1>
+                </div>
+                <div class="body flex-1 p-6">
+                    <div class="email">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="border rounded-xl p-2 w-full">
+                    </div>
+                    <div class="password mt-2">
+                        <label for="password">Hasło</label>
+                        <input type="password" name="password" id="password" class="border rounded-xl p-2 w-full">
+                    </div>
+                </div>
+                <div class="footer flex-1 p-5 w-full">
+                    <button class="bg-teal-600 text-white rounded-xl p-2">Zaloguj</button>
+                    <button class="bg-teal-100 border text-white rounded-xl p-2 text-black">Nie mam konta</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
