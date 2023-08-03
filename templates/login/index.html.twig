@@ -4,24 +4,26 @@
 
 {% block body %}
     <div class="bg-teal-50 h-[40rem]">
-        <form action="">
+        <form action="{{ path('app_login') }}" method="post">
             <div class="bg-white border w-1/2 rounded-xl mx-auto my-20 flex-col">
                 <div class="header flex-1 p-4 rounded-t-xl border-bottom bg-teal-600">
                     <h1 class="text-2xl font-bold text-white">Logowanie</h1>
                 </div>
                 <div class="body flex-1 p-6">
                     <div class="email">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="border rounded-xl p-2 w-full">
+                        <label for="username">Email</label>
+                        <input type="username" name="_username" id="email" value="{{ last_username }}" class="border rounded-xl p-2 w-full">
+                        {% if error %}
+                            <div class="text-red-300 text-sm"><span class="text-red-300">{{ error.messageKey|trans(error.messageData, 'security') }}</span></div>
+                        {% endif %}
                     </div>
                     <div class="password mt-2">
                         <label for="password">Hasło</label>
-                        <input type="password" name="password" id="password" class="border rounded-xl p-2 w-full">
+                        <input type="password" name="_password" id="password" class="border rounded-xl p-2 w-full">
                     </div>
                 </div>
                 <div class="footer flex-1 p-5 w-full">
-                    <button class="bg-teal-600 text-white rounded-xl p-2">Zaloguj</button>
-                    <button class="bg-teal-100 border text-white rounded-xl p-2 text-black">Nie mam konta</button>
+                    <button type="submit" class="bg-teal-600 text-white rounded-xl p-2">Zaloguj</button>
                 </div>
             </div>
         </form>
