@@ -27,7 +27,7 @@ class SetController extends AbstractController
         $this->fileParserFactory = $fileParserFactory;
     }
 
-    #[Route('/set', name: 'app_set')]
+    #[Route('/set', name: 'app_set', )]
     public function index(SetRepository $setRepository, RouteRepository $routeRepository, PointRepository $pointRepository, Request $request): Response
     {
         $sets = $setRepository->findAll();
