@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Set;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -56,5 +57,14 @@ class SetRepository extends ServiceEntityRepository
                 $this->getEntityManager()->flush();
             }
         }
+    }
+
+    public function findAllByUserId(int $userId): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.owner = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
     }
 }

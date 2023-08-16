@@ -45,6 +45,9 @@ class Route
     #[ORM\Column(nullable: true)]
     private ?int $distance = null;
 
+    #[ORM\ManyToOne(inversedBy: 'routes')]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->points = new ArrayCollection();
@@ -153,6 +156,18 @@ class Route
     public function setDistance(?int $distance): self
     {
         $this->distance = $distance;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

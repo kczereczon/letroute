@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,15 +23,33 @@ class SetController extends AbstractController
 {
     private FileParserFactory $fileParserFactory;
 
-    public function __construct(FileParserFactory $fileParserFactory)
+    public function __construct(FileParserFactory $fileParserFactory, private readonly Security $security)
     {
         $this->fileParserFactory = $fileParserFactory;
     }
 
-    #[Route('/set', name: 'app_set', )]
-    public function index(SetRepository $setRepository, RouteRepository $routeRepository, PointRepository $pointRepository, Request $request): Response
-    {
-        $sets = $setRepository->findAll();
+    /**
+     * @throws \Exception
+     */
+    #[Route('/set', name: 'app_set')]
+    public function index(
+        SetRepository $setRepository,
+        RouteRepository $routeRepository,
+        PointRepository $pointRepository,
+        Request $request
+    ): Response {
+        $user = $this->security->getUser();
+
+
+        if($user && method_exists($user, 'getId')) {
+            $userId = $user->getId();
+        }
+
+        if(!isset($userId)) {
+            throw new \RuntimeException("User not found");
+        }
+
+        $sets = $setRepository->findAllByUserId($userId);
         $points = [];
         $routes = [];
         $pointsWithoutRoutes = [];
@@ -50,7 +69,7 @@ class SetController extends AbstractController
 
         if ($routeId) {
             $route = $routeRepository->find($routeId);
-            if($route) {
+            if ($route) {
                 $points = $route->getPoints();
             }
         }

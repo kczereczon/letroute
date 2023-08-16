@@ -33,9 +33,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Set::class)]
     private Collection $sets;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Route::class)]
+    private Collection $routes;
+
     public function __construct()
     {
         $this->sets = new ArrayCollection();
+        $this->routes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +136,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($set->getOwner() === $this) {
                 $set->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Route>
+     */
+    public function getRoutes(): Collection
+    {
+        return $this->routes;
+    }
+
+    public function addRoute(Route $route): self
+    {
+        if (!$this->routes->contains($route)) {
+            $this->routes->add($route);
+            $route->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoute(Route $route): self
+    {
+        if ($this->routes->removeElement($route)) {
+            // set the owning side to null (unless already changed)
+            if ($route->getOwner() === $this) {
+                $route->setOwner(null);
             }
         }
 
