@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Point;
 use App\Entity\Set;
+use App\Entity\User;
 use App\Factory\FileParserFactory;
 use App\Repository\PointRepository;
 use App\Repository\RouteRepository;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class SetController extends AbstractController
 {
@@ -40,12 +42,11 @@ class SetController extends AbstractController
     ): Response {
         $user = $this->security->getUser();
 
-
-        if($user && method_exists($user, 'getId')) {
+        if ($user && method_exists($user, 'getId')) {
             $userId = $user->getId();
         }
 
-        if(!isset($userId)) {
+        if (!isset($userId)) {
             throw new \RuntimeException("User not found");
         }
 
@@ -60,7 +61,7 @@ class SetController extends AbstractController
         if ($setId) {
             $set = $setRepository->find($setId);
             if ($set) {
-                $routes = $set->getRoutes();
+                $routes = $routeRepository->findBySetAndOwner($set->getId(), $userId);
                 $pointsWithoutRoutes = $pointRepository->getPointsWithoutRoute($set);
             }
         }
@@ -68,7 +69,7 @@ class SetController extends AbstractController
         $routeId = $request->get('routeId');
 
         if ($routeId) {
-            $route = $routeRepository->find($routeId);
+            $route = $routeRepository->findByIdAndOwner($routeId, $userId);
             if ($route) {
                 $points = $route->getPoints();
             }
@@ -94,7 +95,7 @@ class SetController extends AbstractController
      * @throws ORMException
      */
     #[Route('/set/create', name: 'app_set_create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         /** @var File $file */
         $file = $request->files->get('points');
@@ -104,7 +105,12 @@ class SetController extends AbstractController
         $points = $parser->parse($file);
 
         $set = new Set();
-        $set->setName("set - " . date('Y-m-d h:i:s'));
+
+        $parsedName = str_replace(' ', '_', $file->getClientOriginalName() ?? 'set');
+
+
+        $set->setName($parsedName . '_' . date('Y-m-d H:i:s'));
+        $set->setOwner($security->getUser());
         $entityManager->persist($set);
 
         foreach ($points as $point) {

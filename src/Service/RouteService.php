@@ -15,12 +15,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class RouteService implements RouteServiceInterface
 {
     public function __construct(
         private RouteGeneratorInterface $routeGenerator,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private readonly Security $security
     ) {
     }
 
@@ -42,6 +44,7 @@ class RouteService implements RouteServiceInterface
         );
 
         foreach ($routes as $route) {
+            $route->setOwner($this->security->getUser());
             $this->entityManager->persist($route);
         }
 

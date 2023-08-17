@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,5 +38,30 @@ class RouteRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findByIdAndOwner(int $id, int $ownerId): ?Route
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.id = :id')
+            ->andWhere('r.owner = :ownerId')
+            ->setParameter('id', $id)
+            ->setParameter('ownerId', $ownerId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findBySetAndOwner(int $setId, int $ownerId): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.set = :setId')
+            ->andWhere('r.owner = :ownerId')
+            ->setParameter('setId', $setId)
+            ->setParameter('ownerId', $ownerId)
+            ->getQuery()
+            ->getResult();
     }
 }
