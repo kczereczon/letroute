@@ -21,9 +21,7 @@ RUN echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN curl -sS https://get.symfony.com/cli/installer | bash
-RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 RUN composer install
 
-CMD ["symfony", "serve"]
+CMD php -S 0.0.0.0:8000

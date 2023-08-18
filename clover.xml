@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1692251426">
-  <project timestamp="1692251426">
+<coverage generated="1692251450">
+  <project timestamp="1692251450">
     <file name="/Users/kczereczon/PhpstormProjects/letroute/src/Command/UserCreateNewCommand.php">
       <class name="App\Command\UserCreateNewCommand" namespace="global">
         <metrics complexity="6" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="0" elements="25" coveredelements="0"/>
